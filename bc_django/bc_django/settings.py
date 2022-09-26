@@ -76,9 +76,11 @@ WSGI_APPLICATION = 'bc_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': '/path/to/my.cnf',
-        },
+        'NAME': 'bc_database',
+        'USER': 'bc_admin',
+        'PASSWORD': '12345QWERT12345',
+        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
+        'PORT': '5900',
     }
 }
 
