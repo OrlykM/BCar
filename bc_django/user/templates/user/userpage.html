@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+</head>
+<body>
+    <h1>User page</h1>
+    {% if request.user.is_authenticated %}
+    Hello, {{ user.username }}
+    <a href="{% url 'logout' %}">Logout</button>
+    {% else %}
+    <a href="{% url 'register' %}">Register</a>
+    <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+</body>
+</html>
