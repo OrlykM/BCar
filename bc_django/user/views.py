@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import PasswordChangeForm
 from django.contrib.auth.views import PasswordResetDoneView
-from django.contrib.auth.forms import UserChangeForm
+from .forms import UserChangeNameForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -27,7 +27,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Register complete')
-            return redirect('')
+            return redirect('login')
     else:
         form = UserRegisterForm()
     return render(request, 'user/register.html', {"form": form})
@@ -35,7 +35,7 @@ def register(request):
 
 def user_login(request):
     if request.method == 'POST':
-        form = UserLoginForm(data=reques.POST)
+        form = UserLoginForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
@@ -69,13 +69,13 @@ def change_password(request):
 @login_required
 def change_name(request):
     if request.method == 'POST':
-        form = UserChangeForm(request.POST, instance=request.user)
+        form = UserChangeNameForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Your name was successfully updated!')
             return redirect('userpage')
     else:
-        form = UserChangeForm(instance=request.user)
+        form = UserChangeNameForm(instance=request.user)
 
     args = {'form': form}
     return render(request, 'user/change_name.html', args)

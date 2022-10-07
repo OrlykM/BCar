@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Change name</title>
 </head>
 <body>
     <h1>Change name</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Confirm login</button>
+        <button type="submit">Confirm name</button>
     </form>
 </body>
 </html>

@@ -10,5 +10,4 @@ urlpatterns = (
          name='change_password'),
     path('change_name/', change_name,
          name='change_name'),
-
 )
