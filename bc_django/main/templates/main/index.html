@@ -1,14 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Main page</title>
-</head>
-<body>
+{% extends 'main/wrapper.html' %}
+
+{% block content %}
+    <div class="container">
     <h1>Main page</h1>
-    {% if request.user.is_authenticated %}
-    Hello, {{ user.username }}
-    {% endif %}
-    <a href="{% url 'user:userpage' %}">User page</button>
-</body>
-</html>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi euismod lectus a egestas rutrum. Donec ultrices eu dui nec efficitur. Praesent eu facilisis neque, ut porttitor eros. Ut eget sollicitudin metus, vel facilisis leo. Praesent ut nibh egestas, dignissim metus eget, vehicula sapien. In ultrices nisi id tortor blandit, ac ultricies sapien faucibus. Donec et eros vitae felis posuere hendrerit. Donec sodales at orci quis consectetur. Pellentesque massa enim, vestibulum et tempor fermentum, pharetra eu arcu.
+
+        Sed molestie, magna at auctor finibus, tellus lorem scelerisque nunc, sed vehicula tellus felis quis nunc. Proin vulputate est ac mi facilisis pharetra. Maecenas metus orci, laoreet sit amet blandit non, venenatis eget diam. Pellentesque vitae lacus at lacus porta pellentesque non a nunc. Donec augue ex, gravida a viverra in, consectetur sit amet massa. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce nec nunc ligula. Sed interdum ultricies pulvinar. Aliquam erat volutpat. Fusce ut elit tellus. Fusce vel semper nisi.
+
+        Nulla viverra risus sed sem mollis, eget semper sapien tincidunt. Sed lobortis malesuada feugiat. Nunc sed ultrices velit, at euismod nisl. Nam eleifend in turpis eu commodo. Integer suscipit a dui a pharetra. Fusce ligula leo, maximus ut urna non, condimentum aliquam metus. Mauris egestas aliquet lectus, eu placerat dolor posuere quis. Aliquam eget vehicula est. Aliquam felis eros, vulputate vitae lacus nec, sagittis scelerisque dui. Aenean varius nulla mattis, mattis eros sed, lobortis felis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc interdum tincidunt convallis.
+
+        Mauris nec lobortis erat. Proin porttitor tincidunt purus ac suscipit. In sapien mauris, euismod eu urna at, congue finibus erat. Vivamus blandit augue a aliquam imperdiet. Duis vitae tincidunt eros. In vitae dui felis. Curabitur nulla lorem, mollis et augue sed, iaculis pellentesque diam. Ut dignissim nibh ac leo dapibus, et rhoncus quam tincidunt. Vestibulum rutrum magna sed odio dapibus vestibulum. Curabitur gravida eros et cursus dictum. Vivamus et ligula imperdiet, lacinia orci a, imperdiet libero. Duis porta, ipsum ac tincidunt dictum, neque orci vestibulum libero, sit amet malesuada neque turpis vel ligula.
+
+        Sed eget massa ipsum. Nunc ut bibendum nunc. Integer lobortis laoreet ultricies. Nulla magna nulla, egestas sit amet sem a, pretium tincidunt ex. In quis sem sit amet urna fringilla efficitur sit amet non ex. Fusce pulvinar magna lorem, vel blandit est mattis sit amet. Praesent sollicitudin felis sed ultrices vulputate. Suspendisse pulvinar purus nunc, eu posuere neque placerat ut. Fusce porta cursus odio, nec eleifend quam. Sed placerat, massa sed consequat laoreet, ex eros commodo leo, eu egestas neque turpis sed risus. Cras aliquam urna non turpis suscipit ultricies. In ut felis in nulla pellentesque iaculis. Sed cursus mattis justo, eu placerat nibh convallis sed.
+
+        Integer varius at erat nec varius. Nulla ut diam dolor. Praesent eu massa augue. Suspendisse placerat ultricies velit in ultrices. Phasellus at tellus euismod arcu molestie commodo. Cras pulvinar nulla luctus, efficitur magna at, faucibus ligula. Quisque tempus nunc et sapien malesuada faucibus. Pellentesque vitae ornare ligula. Proin eu mauris cursus, congue ex ut, aliquam nisi. Morbi eros massa, tempor sit amet velit a, elementum dictum mi. Donec consectetur dolor pellentesque maximus faucibus. Suspendisse eget facilisis diam. Ut eu tortor ut nisl blandit malesuada.
+
+        Etiam elementum urna sed neque euismod malesuada. Duis quis neque et lacus malesuada ultrices. Suspendisse non tellus eu tortor tincidunt sodales non efficitur ante. Duis a sollicitudin mauris. Duis rhoncus facilisis nisi, quis consequat nisi. Duis mattis elementum arcu eu ultrices. Sed at elit ac justo convallis pharetra. Phasellus nec mattis dui. Phasellus eleifend posuere dolor, a congue augue. Donec id nisi non felis venenatis suscipit. Phasellus bibendum lorem sed aliquam eleifend. Nam eget faucibus enim. Nullam convallis augue nisl, id laoreet velit varius vel. Maecenas commodo vulputate tellus id tempus. Integer ac lacus nulla.
+
+        Sed dolor erat, suscipit eu dolor sed, mollis tempus neque. Praesent luctus fringilla tincidunt. Aenean tincidunt dolor risus, et fringilla urna eleifend eu. Maecenas non tellus venenatis, convallis sem ac, tempor urna. Suspendisse vitae felis sed orci feugiat gravida eu at magna. In blandit mattis leo sed pharetra. Suspendisse erat metus, aliquam ut sodales nec, fermentum at magna.
+
+        Morbi et turpis vitae arcu lacinia lacinia vel a justo. Pellentesque vitae molestie lorem. Vivamus magna tellus, tincidunt id semper in, consequat id orci. Nunc ac lectus scelerisque, sollicitudin dolor sit amet, varius nulla. Sed sit amet dapibus orci. Suspendisse nec iaculis tellus. Vivamus a risus at leo convallis gravida. Morbi lacinia pharetra nulla, at porta felis mattis vitae. Pellentesque lobortis nisi quis lorem venenatis, et euismod augue scelerisque.
+
+        Pellentesque efficitur elit ac diam sollicitudin, eu dictum purus pellentesque. Sed mollis ex eu sem luctus sollicitudin. Integer tristique leo et tortor rhoncus, in viverra ante facilisis. In non vulputate ex. Quisque lectus metus, sollicitudin ut sapien sed, malesuada maximus nisi. Maecenas leo metus, congue in mattis a, semper quis augue. Curabitur mattis nulla vitae rhoncus gravida. Integer commodo dolor pretium risus pellentesque, congue iaculis lectus vehicula. Sed convallis sit amet lacus ut porta. Vivamus malesuada leo sed mi efficitur egestas. Suspendisse est est, gravida eu ultrices vel, mollis in dui. Pellentesque bibendum, orci ac porttitor consectetur, purus turpis suscipit tortor, non rhoncus felis nisi a tortor. Vestibulum et felis in nunc volutpat bibendum. Sed quis nisi ut enim interdum blandit.
+    </p>
+    </div>
+{% endblock %}
