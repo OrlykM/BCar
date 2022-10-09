@@ -71,4 +71,3 @@ def change_phone(request):
     else:
         form = UserChangeNameForm(instance=request.user)
     return render(request, 'user/change_phone.html', {"form": form, "title": "Change phone number"})
-
