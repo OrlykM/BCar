@@ -1,0 +1,84 @@
+[
+{
+    "model": "car.car",
+    "pk": 1,
+    "fields": {
+        "model_name": "TestModel1",
+        "photo": null,
+        "category_cars": 1,
+        "registration_number": "AA9234AA",
+        "vin_code": "1XKAD49X28R207730",
+        "insure_number": 124234,
+        "maker": "BMW",
+        "year_registration": "2022-10-09",
+        "status": "new",
+        "num_of_sits": 4,
+        "fuel_tank": 5.1,
+        "price_per_min": 1.2,
+        "available_now": false
+    }
+},
+{
+    "model": "car.categorycar",
+    "pk": 1,
+    "fields": {
+        "category_name": "passenger car"
+    }
+},
+{
+    "model": "car.categorycar",
+    "pk": 2,
+    "fields": {
+        "category_name": "sedan"
+    }
+},
+{
+    "model": "car.categorycar",
+    "pk": 3,
+    "fields": {
+        "category_name": "coupe"
+    }
+},
+{
+    "model": "car.categorycar",
+    "pk": 4,
+    "fields": {
+        "category_name": "hatch-back"
+    }
+},
+{
+    "model": "car.categorycar",
+    "pk": 5,
+    "fields": {
+        "category_name": "hybrid"
+    }
+},
+{
+    "model": "car.categorycar",
+    "pk": 6,
+    "fields": {
+        "category_name": "minivan"
+    }
+},
+{
+    "model": "car.categorycar",
+    "pk": 7,
+    "fields": {
+        "category_name": "suv"
+    }
+},
+{
+    "model": "car.categorycar",
+    "pk": 8,
+    "fields": {
+        "category_name": "convertible"
+    }
+},
+{
+    "model": "car.categorycar",
+    "pk": 9,
+    "fields": {
+        "category_name": "sports car"
+    }
+}
+]

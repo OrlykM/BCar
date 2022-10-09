@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .forms import UserRegisterForm, UserLoginForm, UserPasswordChangeForm, UserChangeNameForm
+from .forms import UserRegisterForm, UserLoginForm, UserPasswordChangeForm, UserChangeNameForm, AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect
@@ -32,7 +32,7 @@ def register(request):
 
 def user_login(request):
     if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
