@@ -1,26 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-<<<<<<< HEAD:bc_django/user/templates/user/change_phone.html
-    <title>Change phone number</title>
-</head>
-<body>
-    <h1>Change phone number</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Confirm</button>
-=======
-    <title>Change name</title>
-</head>
-<body>
-    <h1>Change name</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Confirm name</button>
->>>>>>> e7898a0912e0be21476180a89025ea623c5c76c9:bc_django/user/templates/user/change_name.html
-    </form>
-</body>
-</html>
+{% extends 'main/wrapper.html' %}
+
+{% block content %}
+
+    <div class="modal modal-signin position-static d-block py-5">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <!-- <h1 class="modal-title fs-5" >Modal title</h1> -->
+                    <h1 class="fw-bold mb-0 fs-2">{{ title }}</h1>
+                </div>
+
+                <div class="p-5 pt-0">
+                    <form method="post">
+                        <p class="mb-0">Your current phone number:</p>
+                        <p class="fw-bold fs-5">{{ user.username }}</p>
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-dark" type="submit">Confirm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

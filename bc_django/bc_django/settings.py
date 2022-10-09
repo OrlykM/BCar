@@ -84,11 +84,7 @@ DATABASES = {
         'USER': 'bc_admin',
         'PASSWORD': '12345QWERT12345',
         'HOST': '127.0.0.1',  # Or an IP Address that your DB is hosted on
-<<<<<<< HEAD
         'PORT': '5900',
-=======
-        'PORT': '3306',
->>>>>>> e7898a0912e0be21476180a89025ea623c5c76c9
     }
 }
 
@@ -126,11 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-<<<<<<< HEAD
 AUTH_USER_MODEL = 'user.CustomUser'
-=======
-
->>>>>>> e7898a0912e0be21476180a89025ea623c5c76c9
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

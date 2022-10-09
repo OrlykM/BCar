@@ -2,19 +2,12 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserChangeForm
-<<<<<<< HEAD
 from django.contrib.auth.forms import PasswordChangeForm
-=======
->>>>>>> e7898a0912e0be21476180a89025ea623c5c76c9
 from django.contrib.auth.models import User
-
+from .models import CustomUser
 
 class UserRegisterForm(UserCreationForm):
-<<<<<<< HEAD
-    username = forms.CharField(label='Phone number', widget=forms.TextInput(
-=======
-    username = forms.CharField(label='Username', widget=forms.TextInput(
->>>>>>> e7898a0912e0be21476180a89025ea623c5c76c9
+    phone = forms.CharField(label='Phone number', widget=forms.TextInput(
         attrs={'class': 'form-control'}))
     email = forms.EmailField(label='Email', widget=forms.EmailInput(
         attrs={'class': 'form-control'}))
@@ -23,30 +16,27 @@ class UserRegisterForm(UserCreationForm):
     password2 = forms.CharField(label='Repeat password',
                                 widget=forms.PasswordInput(
                                     attrs={'class': 'form-control'}))
-
     class Meta:
-        model = User
-        fields = ('username', 'email', 'password1', 'password2')
-
+        model = CustomUser
+        fields = ('phone', 'email', 'password1', 'password2')
 
 class UserLoginForm(AuthenticationForm):
-<<<<<<< HEAD
-    username = forms.CharField(label='Phone number', widget=forms.TextInput(
-=======
-    username = forms.CharField(label='Username', widget=forms.TextInput(
->>>>>>> e7898a0912e0be21476180a89025ea623c5c76c9
-        attrs={'class': 'form-control'}))
+    #phone = forms.CharField(label='Phone number', widget=forms.TextInput(
+        #attrs={'class': 'form-control'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(
         attrs={'class': 'form-control'}))
 
+    class Meta:
+        model = CustomUser
+        fields = ('phone','password')
+
 
 class UserChangeNameForm(forms.ModelForm):
-<<<<<<< HEAD
-    username = forms.CharField(label='Phone number', widget=forms.TextInput(
+    phone = forms.CharField(label='Your new phone number', widget=forms.TextInput(
         attrs={'class': 'form-control'}))
     class Meta:
-        model = User
-        fields = ['username']
+        model = CustomUser
+        fields = ['phone']
 
 class UserPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(label='Old password', widget=forms.PasswordInput(
@@ -56,13 +46,5 @@ class UserPasswordChangeForm(PasswordChangeForm):
     new_password2 = forms.CharField(label='Confirm new password', widget=forms.PasswordInput(
         attrs={'class': 'form-control'}))
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['old_password', 'new_password1', 'new_password2']
-=======
-    username = forms.CharField(label='Username', widget=forms.TextInput(
-        attrs={'class': 'form-control'}))
-
-    class Meta:
-        model = User
-        fields = ['username']
->>>>>>> e7898a0912e0be21476180a89025ea623c5c76c9
