@@ -43,11 +43,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     photo = models.CharField(max_length=250, null=True, blank=True)
     password = models.CharField(max_length=250)
     phone = models.CharField(max_length=10, unique=True)
-    username = models.CharField(max_length=250, null=False, unique=True)
+    username = models.CharField(max_length=250, null=False, unique=False)
     email = models.EmailField(_('email address'), max_length=254, unique=True)
     rating = models.IntegerField(default=100)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(default=timezone.now)
@@ -57,7 +57,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['email', 'first_name']
 
     def __str__(self):
-        return self.username
+        return self.phone
 
 class Employee(models.Model):
     first_name = models.CharField(max_length=50)

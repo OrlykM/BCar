@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'main.apps.MainConfig',
     'user.apps.UserConfig',
     'article.apps.ArticleConfig',
@@ -84,7 +85,7 @@ DATABASES = {
         'USER': 'bc_admin',
         'PASSWORD': '12345QWERT12345',
         'HOST': '127.0.0.1',  # Or an IP Address that your DB is hosted on
-        'PORT': '5900',
+        'PORT': '3306',
     }
 }
 
@@ -128,3 +129,13 @@ AUTH_USER_MODEL = 'user.CustomUser'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_PORT = '587'
+EMAIL_HOST_TLS = True
+EMAIL_HOST_USER = 'carsharing.project1@gmail.com'
+EMAIL_HOST_USER_PASSWORD = 'eoksboigzeygdztv'
+PASSWORD_RESET_TIMEOUT_DAYS = 1
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
