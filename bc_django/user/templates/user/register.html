@@ -19,6 +19,7 @@
                         {% csrf_token %}
                         {{ form|crispy }}
                         <br>
+                        <a class="fs-6 mb-2 nav-link link-dark" href="{% url 'login' %}">Already have an account? Log in.</a>
                         <button class="w-100 mb-2 btn btn-lg rounded-3 btn-dark" type="submit">Confirm</button>
                     </form>
                 </div>
