@@ -10,7 +10,7 @@ class Article(models.Model):
     published = models.DateTimeField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'article'
         unique_together = (('id', 'user'),)
 
@@ -22,7 +22,7 @@ class ArticleCategory(models.Model):
     category_name = models.CharField(max_length=30)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'article_category'
 
     def __str__(self):
