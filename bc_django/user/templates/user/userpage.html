@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <h1>User page</h1>
+    {% if request.user.is_authenticated %}
+    Hello, {{ user.phone }}
+    <a href="{% url 'logout' %}">Logout</button></a><br><br>
+
+    <label>Your phone number: </label>
+    <label>{{ res.phone }}</label><br><br>
+
+    <label>Your email: </label>
+    <label>{{ res.email }}</label><br><br>
+
+    <a href="{% url 'change_password' %}">Change password</a>
+    <a href="{% url 'change_phone' %}">Change phone number</a>
+
+    {% else %}
+    <a href="{% url 'register' %}">Register</a>
+    <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+</body>
+</html>
