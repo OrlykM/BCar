@@ -6,17 +6,15 @@ from article.models import *
 from car.models import *
 
 class CustomAccountManager(BaseUserManager):
-    def create_user(self, phone,email, first_name, password, **other_fields):
+    def create_user(self, phone, email, password, **other_fields):
         if not email:
             raise ValueError(gettext_lazy('You must provide email address'))
         email = self.normalize_email(email)
-        user = self.model(phone=phone, email=email,
-                          first_name=first_name, **other_fields)
+        user = self.model(phone=phone, email=email, **other_fields)
         user.set_password(password)
         user.save()
-        return  user
-
-    def create_superuser(self,phone, email, first_name, password, **other_fields):
+        return user
+    def create_superuser(self, phone, email, password, **other_fields):
         other_fields.setdefault('is_staff', True)
         other_fields.setdefault('is_superuser', True)
         other_fields.setdefault('is_active', True)
@@ -25,36 +23,37 @@ class CustomAccountManager(BaseUserManager):
             raise ValueError('Superuser must be assigned to is_staff=True.')
         if other_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must be assigned to is_superuser=True.')
-        return self.create_user(phone ,email, first_name, password, **other_fields)
-
-    def create_staff(self,phone, email, first_name, password, **other_fields):
+        return self.create_user(phone, email, password, **other_fields)
+    def create_staff(self, phone, email, password, **other_fields):
         other_fields.setdefault('is_staff', True)
         other_fields.setdefault('is_active', True)
         if other_fields.get('is_staff') is not True:
             raise ValueError('Superuser must be assigned to is_staff=True.')
         if other_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must be assigned to is_superuser=True.')
-        return self.create_user(phone, email, first_name, password, **other_fields)
+        return self.create_user(phone, email, password, **other_fields)
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    first_name = models.CharField(max_length=150, blank=True)
-    middle_name = models.CharField(max_length=150, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
-    car_right_photo = models.CharField(max_length=250, null=True, blank=True)
-    photo = models.CharField(max_length=250, null=True, blank=True)
+    first_name = models.CharField(max_length=150)
+    middle_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    photo = models.CharField(max_length=250, blank=True, null=True)
+    username = models.CharField(max_length=250)
     password = models.CharField(max_length=250)
-    phone = models.CharField(max_length=10, unique=True)
-    username = models.CharField(max_length=250, null=False, unique=False)
-    email = models.EmailField(_('email address'), max_length=254, unique=True)
+    driving_licence = models.ForeignKey(DrivingLicence, models.DO_NOTHING, null=True)
+    phone = models.CharField(unique=True, max_length=10)
+    email = models.CharField(unique=True, max_length=254)
     rating = models.IntegerField(default=100)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
+    is_staff = models.IntegerField(default=False)
+    is_active = models.IntegerField(default=True)
+    is_superuser = models.IntegerField(default=False)
+    is_allowed_orders = models.IntegerField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(default=timezone.now)
-    objects = CustomAccountManager()
 
     USERNAME_FIELD = 'phone'
-    REQUIRED_FIELDS = ['email', 'first_name']
+    REQUIRED_FIELDS = ['email']
+    objects = CustomAccountManager()
 
     def __str__(self):
         return self.phone
@@ -64,37 +63,34 @@ class Employee(models.Model):
     second_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     salary = models.FloatField()
-    postition = models.CharField(max_length=50)
+    postition = models.CharField(max_length=14)
     hire_date = models.DateTimeField()
-    country = models.CharField(max_length=50)
-    recidence_city = models.CharField(max_length=50)
-    address = models.CharField(max_length=50)
-    status = models.CharField(max_length=50)
+    recidence_city = models.CharField(max_length=4)
+    address = models.CharField(max_length=45)
+    status = models.CharField(max_length=17)
     phone = models.IntegerField(unique=True)
-    email = models.CharField(max_length=250, db_collation='big5_chinese_ci', unique=True)
-    banck_account = models.CharField(max_length=1000)
+    email = models.CharField(unique=True, max_length=45)
+    banck_account = models.CharField(unique=True, max_length=254)
     passport_data = models.IntegerField(unique=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'employee'
 
     def __str__(self):
         return (self.phone)
 
 class Maintain(models.Model):
-    id = models.BigAutoField(primary_key=True)
     employee = models.ForeignKey(Employee, models.DO_NOTHING)
     car = models.ForeignKey(Car, models.DO_NOTHING)
     last_maintain = models.DateTimeField()
     address = models.CharField(max_length=45)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'maintain'
         unique_together = (('id', 'employee', 'car'),)
 class Order(models.Model):
-    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey('user.CustomUser', models.DO_NOTHING)
     car = models.ForeignKey(Car, models.DO_NOTHING)
     order_type = models.CharField(max_length=9)
@@ -102,7 +98,7 @@ class Order(models.Model):
     date_end = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'order'
         unique_together = (('id', 'user', 'car'),)
 class Review(models.Model):
@@ -113,6 +109,6 @@ class Review(models.Model):
     published = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'review'
         unique_together = (('id', 'user', 'car'),)

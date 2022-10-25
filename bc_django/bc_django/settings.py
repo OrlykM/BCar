@@ -38,6 +38,12 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
 
     'crispy_forms',
 
@@ -46,6 +52,7 @@ INSTALLED_APPS = [
     'article.apps.ArticleConfig',
     'car.apps.CarConfig',
 ]
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -64,7 +71,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'frontend/build'),
+            #os.path.join(BASE_DIR, 'frontend/build'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -99,14 +106,55 @@ DATABASES = {
 
 # White listing the localhost:3000 port
 # for React
+CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 )
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    #'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    #'PAGE_SIZE': 10,
+    #'DEFAULT_AUTHENTICATION_CLASSES': (
+    #    'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    #),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
 }
+
+AUTHENTICATION_BACKENDS = [
+    # allauth specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+    # Needed to login by username in Django admin, regardless of allauth
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AUTH_USER_MODEL = 'user.CustomUser'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'phone'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+LOGIN_URL = 'https://localhost:8000/auth/login'
+#REST_USE_JWT = True
+#JWT_AUTH_COOKIE = 'bc' # The cookie key name can be the one you want
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_PORT = '587'
+EMAIL_HOST_TLS = True
+EMAIL_HOST_USER = 'carsharing.project1@gmail.com'
+EMAIL_HOST_USER_PASSWORD = 'eoksboigzeygdztv'
+PASSWORD_RESET_TIMEOUT_DAYS = 1
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'user.serializers.CustomUserDetailsSerializer',
+}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'user.serializers.CustomRegisterSerializer',
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -141,23 +189,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend/build/static'),
-]
-
-AUTH_USER_MODEL = 'user.CustomUser'
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'frontend/build/static'),
+#]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_PORT = '587'
-EMAIL_HOST_TLS = True
-EMAIL_HOST_USER = 'carsharing.project1@gmail.com'
-EMAIL_HOST_USER_PASSWORD = 'eoksboigzeygdztv'
-PASSWORD_RESET_TIMEOUT_DAYS = 1
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
