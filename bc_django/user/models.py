@@ -5,8 +5,23 @@ from django.utils.translation import gettext_lazy as _
 from article.models import *
 from car.models import *
 
+
+class DrivingLicence(models.Model):
+    is_valid = models.IntegerField(default=False)
+    date_of_birth = models.DateField()
+    date_of_issue = models.DateField(null=True)
+    date_of_completion = models.DateField(null=True)
+    series_number = models.CharField(unique=True, max_length=9)
+    lic_photo = models.CharField(max_length=254, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'driving_licence'
+
 class CustomAccountManager(BaseUserManager):
     def create_user(self, phone, email, password, **other_fields):
+        if not phone:
+            raise ValueError(gettext_lazy('You must provide phone number'))
         if not email:
             raise ValueError(gettext_lazy('You must provide email address'))
         email = self.normalize_email(email)

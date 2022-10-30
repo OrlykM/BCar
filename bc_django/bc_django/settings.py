@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
 
     'corsheaders',
     'rest_framework',
@@ -114,9 +115,11 @@ CORS_ORIGIN_WHITELIST = (
 REST_FRAMEWORK = {
     #'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     #'PAGE_SIZE': 10,
-    #'DEFAULT_AUTHENTICATION_CLASSES': (
-    #    'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-    #),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        #'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
     )
@@ -131,13 +134,13 @@ AUTHENTICATION_BACKENDS = [
 
 AUTH_USER_MODEL = 'user.CustomUser'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'phone'
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-LOGIN_URL = 'https://localhost:8000/auth/login'
+LOGIN_URL = 'https://localhost:8000/user/auth/login/'
 #REST_USE_JWT = True
 #JWT_AUTH_COOKIE = 'bc' # The cookie key name can be the one you want
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

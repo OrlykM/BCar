@@ -1,25 +1,33 @@
 from django.db import transaction
-from .models import CustomUser
+from .models import CustomUser, DrivingLicence
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from allauth.account.adapter import get_adapter
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ['url', 'phone', 'email', 'is_active', 'password', 'rating', 'username']
-        #fields = '__all__'
-        extra_kwargs = {'username': {'required': False},
-                        'password': {'write_only': False, 'required': True},
-                        'is_active': {'read_only': True},
-                        'rating': {'read_only': True}}
+
+class DriverLicSerializer(serializers.ModelSerializer):
+    date_of_birth = serializers.CharField(max_length=10)
+    series_number = serializers.CharField(max_length=9)
 
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(**validated_data)
-        Token.objects.create(user=user)
-        return user
+        lic = DrivingLicence.objects.create(
+            date_of_birth=validated_data['date_of_birth'],
+            series_number=validated_data['series_number'],
+        )
+        lic.save()
+
+        return lic
+    class Meta:
+        model = DrivingLicence
+        fields = (
+            'date_of_birth',
+            'series_number',
+        )
+        required_fields = ('date_of_birth', 'series_number')
+
+
 
 class CustomRegisterSerializer(RegisterSerializer):
     phone = serializers.CharField(max_length=10)
@@ -46,5 +54,6 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
         fields = (
             'email',
             'phone',
+            'rating',
         )
-        read_only_fields = ('email', 'phone')
+        read_only_fields = ('email', 'phone', 'rating')

@@ -17,6 +17,7 @@ djangorestframework = "^3.14.0"
 react = "^4.3.0"
 django-crispy-forms = "^1.14.0"
 wheel = "^0.37.1"
+django-filter = "^22.1"
 
 
 [build-system]

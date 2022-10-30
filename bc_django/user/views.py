@@ -1,20 +1,25 @@
-from .models import CustomUser
+from django.db import IntegrityError
+from rest_framework.exceptions import APIException
+from rest_framework.status import HTTP_400_BAD_REQUEST
+
+from .models import CustomUser, DrivingLicence
 from rest_framework import viewsets
 from rest_framework import permissions
-from .serializers import UserSerializer
+from .serializers import DriverLicSerializer
 
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
+class LicenseViewSet(viewsets.ModelViewSet):
+    queryset = DrivingLicence.objects.all()
+    serializer_class = DriverLicSerializer
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = CustomUser.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny]
+    def create(self, request, *args, **kwargs):
+        try:
+            return super().create(request, *args, **kwargs)
+        except IntegrityError as e:
+            raise APIException(detail=str(e), code=HTTP_400_BAD_REQUEST)
 
 class CustomAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):

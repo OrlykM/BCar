@@ -59,16 +59,3 @@ class CategoryCar(models.Model):
     def __str__(self):
         return self.category_name
 
-class DrivingLicence(models.Model):
-    is_valid = models.IntegerField()
-    date_of_birdth = models.DateField()
-    date_of_issue = models.DateField()
-    date_of_complition = models.DateField()
-    issued_by = models.CharField(max_length=7)
-    series_number = models.CharField(unique=True, max_length=9)
-    car_photo_front = models.CharField(max_length=254, blank=True, null=True)
-    car_photo_back = models.CharField(max_length=254, blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'driving_licence'
