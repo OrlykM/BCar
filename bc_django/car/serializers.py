@@ -1,4 +1,4 @@
-from .models import Car, CategoryCar
+from .models import Car
 from rest_framework import serializers
 
 class CarSerializer(serializers.HyperlinkedModelSerializer):
@@ -8,13 +8,10 @@ class CarSerializer(serializers.HyperlinkedModelSerializer):
                   'model',
                   'year',
                   'number_of_seats',
-                  'class_field',
+                  'body_type',
+                  'category_type',
+                  'fuel_type',
                   'vin_code',
                   'registration_number',
                   'insure_number',
                   'photo']
-
-class CategoryCarSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = CategoryCar
-        fields = ['category_name']

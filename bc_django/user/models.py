@@ -6,30 +6,20 @@ from article.models import *
 from car.models import *
 
 
-class DrivingLicence(models.Model):
-    is_valid = models.IntegerField(default=False)
-    date_of_birth = models.DateField()
-    date_of_issue = models.DateField(null=True)
-    date_of_completion = models.DateField(null=True)
-    series_number = models.CharField(unique=True, max_length=9)
-    lic_photo = models.CharField(max_length=254, blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'driving_licence'
-
 class CustomAccountManager(BaseUserManager):
-    def create_user(self, phone, email, password, **other_fields):
+    def create_user(self, phone, email, lic_serial, password, **other_fields):
         if not phone:
             raise ValueError(gettext_lazy('You must provide phone number'))
         if not email:
             raise ValueError(gettext_lazy('You must provide email address'))
+        if not lic_serial:
+            raise ValueError(gettext_lazy('You must provide driver license serial number'))
         email = self.normalize_email(email)
-        user = self.model(phone=phone, email=email, **other_fields)
+        user = self.model(phone=phone, email=email, lic_serial=lic_serial, **other_fields)
         user.set_password(password)
         user.save()
         return user
-    def create_superuser(self, phone, email, password, **other_fields):
+    def create_superuser(self, phone, email, lic_serial, password, **other_fields):
         other_fields.setdefault('is_staff', True)
         other_fields.setdefault('is_superuser', True)
         other_fields.setdefault('is_active', True)
@@ -38,15 +28,15 @@ class CustomAccountManager(BaseUserManager):
             raise ValueError('Superuser must be assigned to is_staff=True.')
         if other_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must be assigned to is_superuser=True.')
-        return self.create_user(phone, email, password, **other_fields)
-    def create_staff(self, phone, email, password, **other_fields):
+        return self.create_user(phone, email, lic_serial, password, **other_fields)
+    def create_staff(self, phone, email, lic_serial, password, **other_fields):
         other_fields.setdefault('is_staff', True)
         other_fields.setdefault('is_active', True)
         if other_fields.get('is_staff') is not True:
             raise ValueError('Superuser must be assigned to is_staff=True.')
         if other_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must be assigned to is_superuser=True.')
-        return self.create_user(phone, email, password, **other_fields)
+        return self.create_user(phone, email, lic_serial, password, **other_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=150)
@@ -55,7 +45,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     photo = models.CharField(max_length=250, blank=True, null=True)
     username = models.CharField(max_length=250)
     password = models.CharField(max_length=250)
-    driving_licence = models.ForeignKey(DrivingLicence, models.DO_NOTHING, null=True)
     phone = models.CharField(unique=True, max_length=10)
     email = models.CharField(unique=True, max_length=254)
     rating = models.IntegerField(default=100)
@@ -66,8 +55,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(default=timezone.now)
 
+    lic_date_birth = models.DateField(null=True)
+    lic_date_issue = models.DateField(null=True)
+    lic_date_completion = models.DateField(null=True)
+    lic_serial = models.CharField(unique=True, max_length=9)
+    lic_photo = models.CharField(max_length=254, blank=True, null=True)
+
     USERNAME_FIELD = 'phone'
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ['email', 'lic_serial']
     objects = CustomAccountManager()
 
     def __str__(self):

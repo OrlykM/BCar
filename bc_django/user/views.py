@@ -2,24 +2,13 @@ from django.db import IntegrityError
 from rest_framework.exceptions import APIException
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
-from .models import CustomUser, DrivingLicence
+from .models import CustomUser
 from rest_framework import viewsets
 from rest_framework import permissions
-from .serializers import DriverLicSerializer
 
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-
-class LicenseViewSet(viewsets.ModelViewSet):
-    queryset = DrivingLicence.objects.all()
-    serializer_class = DriverLicSerializer
-
-    def create(self, request, *args, **kwargs):
-        try:
-            return super().create(request, *args, **kwargs)
-        except IntegrityError as e:
-            raise APIException(detail=str(e), code=HTTP_400_BAD_REQUEST)
 
 class CustomAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
