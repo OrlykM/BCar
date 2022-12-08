@@ -4,6 +4,8 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from article.models import *
 from car.models import *
+from datetime import datetime
+from django.utils import timezone
 
 
 class CustomAccountManager(BaseUserManager):
@@ -38,6 +40,7 @@ class CustomAccountManager(BaseUserManager):
             raise ValueError('Superuser must be assigned to is_superuser=True.')
         return self.create_user(phone, email, lic_serial, password, **other_fields)
 
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=150)
     middle_name = models.CharField(max_length=150)
@@ -68,6 +71,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.phone
 
+
 class Employee(models.Model):
     first_name = models.CharField(max_length=50)
     second_name = models.CharField(max_length=50)
@@ -90,6 +94,7 @@ class Employee(models.Model):
     def __str__(self):
         return (self.phone)
 
+
 class Maintain(models.Model):
     employee = models.ForeignKey(Employee, models.DO_NOTHING)
     car = models.ForeignKey(Car, models.DO_NOTHING)
@@ -100,17 +105,22 @@ class Maintain(models.Model):
         managed = True
         db_table = 'maintain'
         unique_together = (('id', 'employee', 'car'),)
+
+
 class Order(models.Model):
     user = models.ForeignKey('user.CustomUser', models.DO_NOTHING)
     car = models.ForeignKey(Car, models.DO_NOTHING)
     order_type = models.CharField(max_length=9)
-    date_creation = models.DateTimeField()
+    order_price = models.FloatField(default=0)
+    date_creation = models.DateTimeField(default=timezone.now)
     date_end = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = True
         db_table = 'order'
         unique_together = (('id', 'user', 'car'),)
+
+
 class Review(models.Model):
     user = models.ForeignKey('user.CustomUser', models.DO_NOTHING)
     car = models.ForeignKey(Car, models.DO_NOTHING)

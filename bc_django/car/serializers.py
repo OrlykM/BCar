@@ -2,6 +2,7 @@ from .models import Car
 from rest_framework import serializers
 
 class CarSerializer(serializers.HyperlinkedModelSerializer):
+    registration_number = serializers.RegexField("^[A-Z]{2}[0-9]{4}[A-Z]{2}$")
     class Meta:
         model = Car
         fields = ['make',
@@ -14,4 +15,12 @@ class CarSerializer(serializers.HyperlinkedModelSerializer):
                   'vin_code',
                   'registration_number',
                   'insure_number',
-                  'photo']
+                  'price_per_min',
+                  'photo',
+                  'longitude',
+                  'latitude']
+
+class CarSerializerUpdate(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Car
+        fields = ['available_now']

@@ -70,6 +70,8 @@ class Car(models.Model):
     price_per_min = models.FloatField(default=0)
     available_now = models.IntegerField(default=False)
     photo = models.CharField(max_length=45, blank=True, null=True)
+    longitude = models.FloatField(default=0.0000)
+    latitude = models.FloatField(default=0.0000)
     is_approved = models.IntegerField(default=False)
     class Meta:
         managed = True
