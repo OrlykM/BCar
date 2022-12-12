@@ -1,0 +1,56 @@
+.mySidebar {
+    background-color: #464964;
+    position: fixed;
+    top: 85px;
+    left: 0;
+    width: 350px;
+    height: 100%;
+    border: 2px solid black;
+    z-index: 401;
+}
+
+.mySidebar__btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid black;
+    padding: 10px;
+}
+
+.mySidebar__btns button {
+    background: transparent;
+    padding: 6px;
+    font-weight: bold;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.mySidebar__btns button:hover {
+    background-color: black;
+    color: #fff;
+}
+
+.mySidebar__select {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-bottom: 2px solid black;
+}
+
+.mySidebar__select label {
+    font-weight: bold;
+}
+
+.mySidebar__cars {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    gap: 15px;
+    height: 100%;
+    padding-bottom: 200px;
+}

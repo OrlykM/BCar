@@ -1,0 +1,3 @@
+Go to {{ activate_url }}
+
+Change text

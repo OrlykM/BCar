@@ -1,0 +1,21 @@
+#cta {
+    background: rgba(114, 12, 12, 0.93);
+    /*background: linear-gradient(to right, #ce2525, #0e0303);*/
+}
+.btn {
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border-radius: 0;
+}
+
+.btn-brand {
+    background-color: #261d21;
+    color: #fff;
+}
+
+.btn-brand:hover {
+    background-color: #44313b;
+    color: #fff;
+}

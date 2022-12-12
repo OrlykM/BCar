@@ -9,6 +9,16 @@ readme = "README.md"
 python = "^3.9"
 Django = "^4.1.1"
 mysqlclient = "^2.1.1"
+six = "^1.16.0"
+django-allauth = "^0.51.0"
+dj-rest-auth = "^2.2.5"
+django-cors-headers = "^3.13.0"
+djangorestframework = "^3.14.0"
+react = "^4.3.0"
+django-crispy-forms = "^1.14.0"
+wheel = "^0.37.1"
+django-filter = "^22.1"
+python-dateutil = "^2.8.2"
 
 
 [build-system]
