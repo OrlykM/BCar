@@ -1,6 +1,6 @@
 from .models import Car
 from rest_framework import serializers
-
+from django.core.validators import RegexValidator
 class CarSerializer(serializers.HyperlinkedModelSerializer):
     registration_number = serializers.RegexField("^[A-Z]{2}[0-9]{4}[A-Z]{2}$")
     class Meta:
@@ -24,3 +24,10 @@ class CarSerializerUpdate(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Car
         fields = ['available_now']
+
+class CarSerializerApprove(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Car
+        fields = ['vin_code',
+                  'is_approved'
+                  ]

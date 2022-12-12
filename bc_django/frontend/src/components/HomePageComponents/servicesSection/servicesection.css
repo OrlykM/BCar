@@ -1,0 +1,25 @@
+#services{
+    color: #616169;
+    background: rgba(22, 21, 21, 0.93);
+    /*background: linear-gradient(to right, #ce2525, #0e0303);*/
+}
+
+.icon-box {
+    width: 60px;
+    height: 60px;
+    background-color: #ff0000;
+    color: #eeeeee;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    flex: none;
+}
+
+.logo-text {
+    font-size: 22px;
+
+    text-transform: uppercase;
+    color: #ffffff !important;
+}

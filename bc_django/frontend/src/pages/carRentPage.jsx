@@ -4,7 +4,7 @@ import Section from "../components/CarRentPageComponents/section";
 
 const CarRentPage = () => {
     return (
-        <div style={{background: "rgba(47, 45, 45, 0.93)"}}>
+        <div style={{background: "#262d59"}}>
             <Header/>
             <Section/>
         </div>

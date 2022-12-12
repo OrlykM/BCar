@@ -1,14 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 import datetime
 from user.models import *
 from article.models import *
-
+def upload(instance, filename):
+    return 'licence/{filename}'.format(filename=filename)
 def year_choices():
     return [(r,r) for r in range(2012, datetime.date.today().year+1)]
-
 def current_year():
     return datetime.date.today().year
-
 class Car(models.Model):
     make = models.CharField(max_length=45)
     model = models.CharField(max_length=45)
@@ -69,7 +71,7 @@ class Car(models.Model):
     fuel_tank_left = models.FloatField(default=0)
     price_per_min = models.FloatField(default=0)
     available_now = models.IntegerField(default=False)
-    photo = models.CharField(max_length=45, blank=True, null=True)
+    photo = models.ImageField(upload_to="images/", blank=True, null=True)
     longitude = models.FloatField(default=0.0000)
     latitude = models.FloatField(default=0.0000)
     is_approved = models.IntegerField(default=False)

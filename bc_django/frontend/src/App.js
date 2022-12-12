@@ -9,10 +9,8 @@ import RestorePassword from "./pages/restorepasswordpage";
 import NewPasswordPage from "./pages/newPasswordPage";
 import UploadDrivingLicense from "./pages/UploadDrivingLicense";
 import CarRentPage from "./pages/carRentPage";
-import CarAddNewPage from "./pages/carAddNewPage";
-import OwnerGetInfoCars from "./pages/ownerGetInfoCars";
-
-
+import ShareCar from "./pages/shareCar";
+import Confirmation from "./pages/confirmation";
 
 function App() {
   return (
@@ -21,17 +19,16 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register/UploadDrivingLicense" element={<UploadDrivingLicense />} />
-        <Route path="/mapPage" element={<MapPage />}/>
+        <Route path="/map" element={<MapPage />}/>
         <Route path="/reset" element={<RestorePassword />}/>
         <Route path="/reset/newPassword" element={<NewPasswordPage/>}/>
         <Route path="/car/:id/rent" element={<CarRentPage/>}/>
-        <Route path="/car/add/:userId" element={<CarAddNewPage/>}/>
-        <Route path="user/owner/get_info/:userId" element={<OwnerGetInfoCars/>}/> // change the name of url
+        <Route path="/share/car" element={<ShareCar/>}/>
+        <Route path="/register/confirmation/:key" element={<Confirmation />}/>
         <Route path="*" element={<NotFoundPage />}/>
+
     </Routes>
   );
 }
 
 export default App;
-
-//     <Route path="car/add/:userId" element={<CarAddNew/>}/>

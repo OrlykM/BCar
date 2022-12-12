@@ -1,0 +1,41 @@
+
+.portfolio-item {
+    overflow: hidden;
+    position: relative;
+}
+.portfolio-item img,
+.portfolio-item .portfolio-overlay {
+    transition: all 0.4s ease;
+}
+
+.portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(229, 229, 229, 0.9);
+    display: flex;
+    align-items: flex-end;
+    padding: 30px;
+    opacity: 0;
+}
+
+.portfolio-overlay h3,
+.portfolio-overlay h6 {
+    color: #fff;
+}
+
+.portfolio-item:hover .portfolio-overlay {
+    opacity: 1;
+}
+
+.portfolio-item:hover img {
+    transform: scale(1.1);
+}
+
+#portfolio{
+    /*background: #cf2d16;*/
+    background: rgba(22, 21, 21, 0.93);
+    /*background: linear-gradient(to right, #ce2525, #0e0303);*/
+}

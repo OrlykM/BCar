@@ -4,14 +4,13 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.serializers import ValidationError
 from rest_framework.validators import UniqueValidator
-
+from django.core.validators import RegexValidator
 from allauth.account.adapter import get_adapter
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
 def required(value):
     if value is None:
         raise Exeption('This field is required')
-
 
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
@@ -26,12 +25,15 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
                   'date_end',
                   'order_price'
                   ]
-
-
 class CustomRegisterSerializer(RegisterSerializer):
-    phone = serializers.CharField(max_length=10,
+    phone_regex = RegexValidator(regex=r'^[+]{1}?1?\d{9,12}$',
+                                 message="Phone number must be entered in the format: '+380991234567'.")
+
+    phone = serializers.CharField(max_length=13,
                                   validators=[UniqueValidator(
-                                      queryset=CustomUser.objects.all())])
+                                      queryset=CustomUser.objects.all()),
+                                      phone_regex])
+
     # uncomment lic_serial for registration here and in return
 
     # lic_serial = serializers.CharField(max_length=9,
@@ -59,7 +61,6 @@ class CustomRegisterSerializer(RegisterSerializer):
         user.save()
         return user
 
-
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -69,8 +70,6 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
             'rating',
         )
         read_only_fields = ('email', 'phone', 'rating')
-
-
 class OwnerInfoSerializer(serializers.ModelSerializer):
     profit = serializers.FloatField(required=False, read_only=True)
     # number_of_days = serializers.IntegerField(required=True)
@@ -88,3 +87,16 @@ class OwnerInfoSerializer(serializers.ModelSerializer):
 
         read_only_fields = (
             'make', 'model', 'category_type', 'registration_number', 'profit')
+
+class CustomUserInfo(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = (
+            "first_name",
+            "last_name",
+            "phone",
+            "email",
+            "lic_serial",
+            "is_active",
+            "rating"
+        )

@@ -48,7 +48,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     photo = models.CharField(max_length=250, blank=True, null=True)
     username = models.CharField(max_length=250)
     password = models.CharField(max_length=250)
-    phone = models.CharField(unique=True, max_length=10)
+    phone = models.CharField(unique=True, max_length=13)
     email = models.CharField(unique=True, max_length=254)
     rating = models.IntegerField(default=100)
     is_staff = models.IntegerField(default=False)
@@ -61,7 +61,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     lic_date_birth = models.DateField(null=True)
     lic_date_issue = models.DateField(null=True)
     lic_date_completion = models.DateField(null=True)
-    lic_serial = models.CharField(unique=True, max_length=9)
+    lic_serial = models.CharField(unique=True, max_length=9, null=True)
     lic_photo = models.CharField(max_length=254, blank=True, null=True)
 
     USERNAME_FIELD = 'phone'

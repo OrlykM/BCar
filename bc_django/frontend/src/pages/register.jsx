@@ -1,5 +1,7 @@
 import React, {useEffect, useState,setState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
+import Modal from "../modal/Modal"
 
 const Register = () => {
 
@@ -7,6 +9,8 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [confirmPassword,setConfirmPassword] = useState('');
+    const [redirectHome,setRedirectHome] = useState('');
+    const [modalActive, setModalActive] = useState(true);
 
     const [isError,setIsError] = useState('');
     const [isEmailError,setEmailError] = useState('');
@@ -36,11 +40,20 @@ const Register = () => {
                 body: JSON.stringify(user),
             }).then(async(response) => {
            if (response.ok) {
+                // make popup with sentence like : "Email was sent. Check it"
+                setRedirectHome(true);
                 // will succeed unless server logic or your logic is off
                 console.log(response.json());
-            } else if (response.status === 400) {
+           } else if (response.status === 400) {
                 // will succeed if the server will always respond with JSON with a 400 response
                 const result = await response.json();
+
+                setEmailError('');
+                setPhoneError('');
+                setPasswordError('')
+                setPasswordConfirmError('')
+
+                setRedirectHome(false);
                 if (result.email)
                     setEmailError(result.email);
                 if (result.phone)
@@ -49,10 +62,12 @@ const Register = () => {
                     setPasswordError(result.password1)
                 if (result.password2)
                     setPasswordConfirmError(result.password2)
-            } else {
+                if (user.password2 !== user.password1)
+                    setPasswordConfirmError("This password is not equal to previous")
+           } else {
                 // there was some other error in the response, such as status 500
                 console.log(response.json());
-            }
+           }
         })
             .catch((err) => {
                 // An unexpected error occurred which was not 400 nor while parsing the response header
@@ -61,9 +76,10 @@ const Register = () => {
             });
     }
     return (
+
         <section className="vh-100 bg-image" style={{background: "#343131"}}>
             <div className="mask d-flex align-items-center h-100 gradient-custom-3">
-                <div className="container h-100">
+                <div className="container h-120">
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-12 col-md-9 col-lg-7 col-xl-6">
                             <div className="card" style={{background: "#000000", borderRadius:"15px"}}>
@@ -71,7 +87,6 @@ const Register = () => {
                                     <h2 className="text-uppercase text-center mb-5">Create an account</h2>
 
                                     <form>
-
                                         <div className="phone">
                                             <input type="text" id="phone"
                                                    value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="phone"
@@ -103,10 +118,11 @@ const Register = () => {
 
 
                                         <div className="d-flex justify-content-center">
-                                            <button onClick={handleForSubmit} type="submit" className="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
+                                            <button onClick={handleForSubmit} type="submit" className="btn btn-success btn-block btn-lg gradient-custom-5 text-body"
                                                     href="login.html">Register</button>
-
+                                            {redirectHome && <Navigate to="/" />}
                                         </div>
+
 
                                         <p className="text-center text-muted mt-5 mb-0">Have already an account?
                                             <a className="fw-bold text-body">
@@ -115,6 +131,7 @@ const Register = () => {
                                                 </Link>
                                             </a>
                                         </p>
+
                                     </form>
                                 </div>
                             </div>

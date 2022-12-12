@@ -1,0 +1,51 @@
+.carCard {
+    width: 300px;
+    border: 2px solid black;
+    background: #452659;
+}
+
+.carCard__img {
+    position: relative;
+    height: 100px;
+    overflow: hidden;
+}
+
+.carCard__img img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carCard__desc {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.carCard__info h2 {
+    font-size: 14px;
+}
+
+.carCard__info p span {
+    color: green;
+    font-weight: bold;
+}
+
+.carCard__desc button {
+    background: transparent;
+    border: 2px solid green;
+    padding: 6px 10px;
+    color: green;
+    font-weight: bold;
+    transition: all 0.2s linear;
+    cursor: pointer;
+}
+
+.carCard__desc button:hover {
+    background-color: green;
+    color: #fff;
+}

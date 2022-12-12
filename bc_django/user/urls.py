@@ -29,17 +29,17 @@ urlpatterns = [
         'auth/password/reset/confirm/<slug:uidb64>/<slug:token>/',
         PasswordResetConfirmView.as_view(), name='password_reset_confirm'
     ),
+
     path(
-        'order/make/<int:user_id>/<int:car_id>/',
-        OrderView.as_view(), name='car_order_start'
-    ),
-    path(
-        # r'^owner/get_info/<int:user_id>/(?P<number_of_days>\w{0,50})/$',
-        # r'owner/get_info/(?P<user_id>\d+)/',
-        'owner/get_info/<int:user_id>/',
-        OwnerInfoView.as_view({'get': 'list'}), name='info_owner'
+        'order/new/<int:user_id>/<int:car_id>/',
+        OrderView.as_view({"post":"post", "put":"put"}), name='car_order_start'
     ),
 
-    #path('stats/', ''),
-    #path('settings/', ''),
+
+    path(
+        '<int:user_id>/car/getinfo',
+        OwnerInfoView.as_view({'get': 'list'}),
+    ),
+    path('<int:user_id>', OwnerInfoView.as_view({"get": "show", "delete":"delete"}), ),  #admin, moderator
+    path('<int:user_id>/settings', OwnerInfoView.as_view({"get":"show2", "put": "update", "delete":"delete"}), ) ,  #owner
 ]
