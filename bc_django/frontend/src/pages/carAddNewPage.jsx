@@ -31,7 +31,7 @@ const AddNew = () =>
     const [isInsureNumberError,setInsureNumberError] = useState('');
 
     // Get ID from URL
-    const params = useParams()
+    const params = useParams();
 
     const handleForAddCar = (event) =>
     {

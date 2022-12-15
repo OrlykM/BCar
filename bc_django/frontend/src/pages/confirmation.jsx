@@ -2,6 +2,7 @@ import React from 'react';
 import '../components/confirmationPageComponents/confirmationForm/confirmation.css'
 import {Link} from "react-router-dom";
 import {useState} from "react";
+import {useEffect} from "react";
 import {Navigate} from 'react-router-dom';
 import { useParams } from "react-router-dom";
 
@@ -11,8 +12,7 @@ const Confirmation = () => {
     const [redirectHome,setRedirectHome] = useState('');
     const params = useParams();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+   useEffect(() => {
         console.log({"params.key": params.key});
         fetch(`http://localhost:8000/user/auth/register/account-confirm-email/${params.key}/`,
             {
@@ -28,7 +28,7 @@ const Confirmation = () => {
                 console.log(response.json());
             else
                 console.log(response.json());});
-    }
+    }, []);
     return (
         <div>
             <div style={{
@@ -47,14 +47,9 @@ const Confirmation = () => {
                                         <h2 style={{color: "white"}}>Thank you for confirmation!</h2>
 
                                         <div className="d-flex justify-content-center">
-                                                <Link to="/">
-                                                <button onClick={handleSubmit} type="submit"  className="button-86 " role="button"
-                                                        style={{color: "#7e807e", marginRight: "100px"}}>Driving license
-                                                </button>
-                                                </Link>
-                                                <Link to="/">
-                                                <button onClick={handleSubmit} type="submit"  className="button-86" role="button"
-                                                        style={{color: "#7e807e", marginLeft: "100px"}}>HOME
+                                                <Link to="/login">
+                                                <button className="button-86 " role="button"
+                                                        style={{color: "#7e807e", margin: "50px"}}>Log in
                                                 </button>
                                                 </Link>
                                         </div>

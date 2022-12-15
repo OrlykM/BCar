@@ -18,7 +18,7 @@ const GetInfoCars = () =>
     const params = useParams()
 
     let result = null;
-
+    
     const handleGetData = (event) =>
     {
         event.preventDefault();
@@ -74,6 +74,7 @@ const GetInfoCars = () =>
                 console.log(error)
             });
     }
+
     return (
         <div>
             <form onSubmit={handleGetData}>

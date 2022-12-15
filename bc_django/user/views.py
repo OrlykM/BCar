@@ -19,35 +19,40 @@ from collections import defaultdict
 from .serializers import *
 from .perms import *
 import json
+
+
 class OwnerInfoView(viewsets.ModelViewSet):
     queryset = Car.objects.all()
+
     def get_serializer_class(self):
         # print(self.request.method)
         if hasattr(self.request, 'method'):
             if self.request.method == 'GET':
                 return OwnerInfoSerializer
-    def get_permissions(self):
-        if self.action in ['list'] and self.request.user.is_staff == 1:
-            permission_classes = (IsModerator,)
-            return [permission() for permission in permission_classes]
-        elif self.action in ['list'] and self.request.user.is_staff ==0:
-            permission_classes = (IsOwner,)
-            return [permission() for permission in permission_classes]
-        if self.action in ['update']:
-            permission_classes = (IsOwner,)
-            return [permission() for permission in permission_classes]
-        if self.action in ['delete'] and self.request.user.is_superuser == 1:
-            permission_classes = (permissions.IsAdminUser,)
-            return [permission() for permission in permission_classes]
-        elif self.action in ['delete'] and self.request.user.is_superuser == 0:
-            permission_classes = (IsOwner,)
-            return [permission() for permission in permission_classes]
-        if self.action in ['show2']:
-            permission_classes = (IsOwner,)
-            return [permission() for permission in permission_classes]
-        if self.action in ['show']:
-            permission_classes = (IsModerator,)
-            return [permission() for permission in permission_classes]
+
+    # def get_permissions(self):
+    #     if self.action in ['list'] and self.request.user.is_staff == 1:
+    #         permission_classes = (IsModerator,)
+    #         return [permission() for permission in permission_classes]
+    #     elif self.action in ['list'] and self.request.user.is_staff == 0:
+    #         permission_classes = (IsOwner,)
+    #         return [permission() for permission in permission_classes]
+    #     if self.action in ['update']:
+    #         permission_classes = (IsOwner,)
+    #         return [permission() for permission in permission_classes]
+    #     if self.action in ['delete'] and self.request.user.is_superuser == 1:
+    #         permission_classes = (permissions.IsAdminUser,)
+    #         return [permission() for permission in permission_classes]
+    #     elif self.action in ['delete'] and self.request.user.is_superuser == 0:
+    #         permission_classes = (IsOwner,)
+    #         return [permission() for permission in permission_classes]
+    #     if self.action in ['show2']:
+    #         permission_classes = (IsOwner,)
+    #         return [permission() for permission in permission_classes]
+    #     if self.action in ['show']:
+    #         permission_classes = (IsModerator,)
+    #         return [permission() for permission in permission_classes]
+
     def list(self, request, *args, **kwargs):
         serializer_tmp = OwnerInfoSerializer(data=request.data)
         if not serializer_tmp.is_valid():
@@ -74,7 +79,6 @@ class OwnerInfoView(viewsets.ModelViewSet):
             return Response({"Error": "This fields(days) is required"},
                             status=status.HTTP_400_BAD_REQUEST)
 
-
         pickup_records = []
         for i in range(order_cur_count):
             car = Car.objects.filter(pk=order_cur[i].car_id).first()
@@ -98,23 +102,30 @@ class OwnerInfoView(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(pickup_records, many=True)
         return Response(serializer.data)
+
     def show(self, request, *args, **kwargs):
         user_obj = CustomUser.objects.filter(id=kwargs['user_id']).last()
         if user_obj is None:
-            return Response({"User":"Not fount"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"User": "Not fount"},
+                            status=status.HTTP_404_NOT_FOUND)
         return Response(CustomUserInfo(user_obj).data)
+
     def show2(self, request, *args, **kwargs):
         user_obj = CustomUser.objects.filter(id=kwargs['user_id']).last()
         if user_obj is None:
-            return Response({"User":"Not fount"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"User": "Not fount"},
+                            status=status.HTTP_404_NOT_FOUND)
         return Response(CustomUserInfo(user_obj).data)
+
     def update(self, request, *args, **kwargs):
         user_obj = CustomUser.objects.filter(id=kwargs['user_id']).last()
         if user_obj is None:
-            return Response({"User": "Not fount"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"User": "Not fount"},
+                            status=status.HTTP_404_NOT_FOUND)
         super().update(request, *args, **kwargs)
         user_obj2 = CustomUser.objects.fileter(id=kwargs['user_id']).last()
         return Response(CustomUserInfo(user_obj2).data)
+
     def delete(self, request, *args, **kwargs):
         user_obj = self.get_object()
         if user_obj is not None:
@@ -123,12 +134,16 @@ class OwnerInfoView(viewsets.ModelViewSet):
         else:
             return Response({'user': 'Not found'},
                             status=status.HTTP_404_NOT_FOUND)
+
+
 class OrderView(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
-    def get_permissions(self):
-        if self.action in ['put', 'post']:
-            permission_classes = (IsOwner, )
-        return [permission() for permission in permission_classes]
+
+    # def get_permissions(self):
+    #     if self.action in ['put', 'post']:
+    #         # permission_classes = (IsOwner,)
+    #     return [permission() for permission in permission_classes]
+
     def post(self, request, **kwargs):
         try:
             data = ({'user': kwargs['user_id'],
@@ -150,6 +165,7 @@ class OrderView(viewsets.ModelViewSet):
                             status=status.HTTP_201_CREATED)
         return Response(order_serializer.errors,
                         status=status.HTTP_400_BAD_REQUEST)
+
     def put(self, request, **kwargs):
         try:
             date_end = timezone.now()
@@ -184,6 +200,8 @@ class OrderView(viewsets.ModelViewSet):
             return Response(order_price, status=status.HTTP_201_CREATED)
         return Response(order_serializer.errors,
                         status=status.HTTP_400_BAD_REQUEST)
+
+
 class CustomAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,

@@ -37,7 +37,7 @@ urlpatterns = [
 
 
     path(
-        '<int:user_id>/car/getinfo',
+        '<int:user_id>/car/getinfo/',
         OwnerInfoView.as_view({'get': 'list'}),
     ),
     path('<int:user_id>', OwnerInfoView.as_view({"get": "show", "delete":"delete"}), ),  #admin, moderator

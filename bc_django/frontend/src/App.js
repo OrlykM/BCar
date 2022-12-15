@@ -22,7 +22,7 @@ function App() {
         <Route path="/map" element={<MapPage />}/>
         <Route path="/reset" element={<RestorePassword />}/>
         <Route path="/reset/newPassword" element={<NewPasswordPage/>}/>
-        <Route path="/car/:id/rent" element={<CarRentPage/>}/>
+        <Route path="/car/:carId/rent" element={<CarRentPage/>}/>
         <Route path="/share/car" element={<ShareCar/>}/>
         <Route path="/register/confirmation/:key" element={<Confirmation />}/>
         <Route path="*" element={<NotFoundPage />}/>

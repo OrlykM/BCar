@@ -102,7 +102,7 @@ DATABASES = {
         'USER': 'bc_admin',
         'PASSWORD': '12345QWERT12345',
         'HOST': '127.0.0.1',  # Or an IP Address that your DB is hosted on
-        'PORT': '5900',
+        'PORT': '3306',
     }
 }
 

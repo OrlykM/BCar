@@ -1,10 +1,11 @@
 import React from 'react';
 import './mapPageHeader.css'
 
+
 const MapPageHeader = ({onClose}) => {
     return (
-        <header className="p-3 mb-3 border-bottom">
-            <div className="container">
+        <header className="fixed-top p-3 mb-3 ">
+            <div className="container"> 
                 <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" >
                     <div id="menuToggle" onClick={onClose}>
 
