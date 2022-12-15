@@ -12,8 +12,6 @@ import { useDispatch } from "react-redux";
 import test from "../../../assets/img/p4.jpg";
 import test_1 from "../../../assets/img/p2.jpg";
 import test_2 from "../../../assets/img/p3.jpg";
-import test_3 from "../../../assets/img/photo_1.svg";
-import test_4 from "../../../assets/img/photo.svg";
 import test_5 from "../../../assets/img/1234.jpeg";
 import test_6 from "../../../assets/img/commercial.png";
 
