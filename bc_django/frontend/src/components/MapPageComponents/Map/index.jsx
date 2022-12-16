@@ -15,20 +15,16 @@ import { useDispatch } from "react-redux";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
 import test_2 from "../../../assets/img/img.png";
+import сar_top from "../../../assets/img/carpictop.png";
 import { updateCarZoom } from "../../../features/Cars";
 
 function getIcon(_iconSize) {
   return L.icon({
-    iconUrl: test_2,
+    iconUrl: сar_top,
     iconSize: [_iconSize],
     //         iconSize: [32,45],
   });
 }
-
-// const locations = [
-//   { name: "Lviv", position: [49.841908, 24.031519] },
-//   { name: "Lviv_1", position: [49.83826, 24.02324] },
-// ];
 
 let locations = [];
 const center = [49.841908, 24.031519];
@@ -51,8 +47,8 @@ function Markers({ data }) {
             lng: marker.longitude,
           }}
           icon={L.icon({
-            iconUrl: test_2,
-            iconSize: [100],
+            iconUrl: сar_top,
+            iconSize: [30],
           })}
         >
           <Popup>
@@ -67,38 +63,46 @@ function Markers({ data }) {
 
 function ChangeView({ active }) {
   const dispatch = useDispatch();
+  const markerRef = useRef(null);
 
   console.log("ChangeView before", active);
   const map = useMap();
-
-  if (active.isClicked)
+  let pos = [active.latitude, active.longitude];
+  function test(){
+    alert("THe button rent was clicked");
+  }
+  if (active.isClicked) {
+    var url = 'http://localhost:3000/car/' + active.car_id + '/rent?';
+    var content = 
+      // "<br />'<a href='http://localhost:3000/car/16/rent' target='_blank'>Click here to rent a car</a>'";
+      '<form action="'+url+'">'+
+      "<input type='submit' value='Rent a car' />"+
+      '</form>';
     map.setView([active.latitude, active.longitude], 20, { duration: 1 });
+    var popup = L.popup()
+      .setLatLng(pos)
+      .setContent(content)
+      .openOn(map);
+  }
 
   dispatch(updateCarZoom({ car_id: active.car_id, isClicked: false }));
-
-  console.log("ChangeView after", active);
 }
 
-function Activate({ data }) {
-  const map = useMap();
-  map.setView([data.lat, data.lng], 20);
-  console.log(data);
-}
 const disneyWorldLatLng = [28.3852, -81.5639];
 
 function Map() {
   const [zoom, setZoom] = useState(false);
 
   const carsList = useSelector((state) => state.cars.value);
-  console.log("Is CLiked", carsList[0].isClicked);
+  // console.log("Is CLiked", carsList[0].isClicked);
   const [carData, setCarData] = useState([]);
 
   let result = null;
   const [category, setCategory] = useState("");
   const handleForSubmit = () => {
-  console.log(category);
+    // console.log(category);
 
-  // sometimes the don`t return the cars. fix it
+    // sometimes the don`t return the cars. fix it
     fetch(
       `http://127.0.0.1:8000/car/search/?category_type=${encodeURIComponent(
         category
@@ -115,8 +119,7 @@ function Map() {
         console.log("CAr search data", result.results);
         setCarData(result.results);
 
-        for (var car of carData) 
-          locations.push(car);
+        for (var car of result.results) locations.push(car);
       }
     });
   };
@@ -128,10 +131,12 @@ function Map() {
 
   useEffect(() => {
     if (carsList[0].isClicked) setZoom(true);
-    else console.log("not clicked");
+    // else console.log("not clicked");
 
     console.log("useEffectData", carData);
   }, []);
+
+  console.log("CAr list len", carsList.length);
 
   return (
     <div style={{ overflow: "auto" }}>
@@ -142,7 +147,7 @@ function Map() {
         style={{ width: "100vw", height: "100vh" }}
       >
         <ZoomControl position="bottomright" />
-        <ChangeView active={carsList[0]} />
+        <ChangeView active={carsList[carsList.length - 1]} />
         <TileLayer
           url="https://api.maptiler.com/maps/basic/256/{z}/{x}/{y}.png?key=spmECc6zOXa7b6ZMwEIE"
           attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>
@@ -154,6 +159,5 @@ function Map() {
     </div>
   );
 }
-
 
 export { Map, Markers };

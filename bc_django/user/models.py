@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from article.models import *
+# from article.models import *
 from car.models import *
 from datetime import datetime
 from django.utils import timezone

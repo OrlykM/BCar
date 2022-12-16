@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 import datetime
 from user.models import *
-from article.models import *
+# from article.models import *
 def upload(instance, filename):
     return 'licence/{filename}'.format(filename=filename)
 def year_choices():

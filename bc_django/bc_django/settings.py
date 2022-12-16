@@ -50,7 +50,6 @@ INSTALLED_APPS = [
 
     'main.apps.MainConfig',
     'user.apps.UserConfig',
-    'article.apps.ArticleConfig',
     'car.apps.CarConfig',
 ]
 SITE_ID = 1

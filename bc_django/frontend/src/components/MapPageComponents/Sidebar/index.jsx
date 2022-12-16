@@ -21,7 +21,7 @@ const Sidebar = ({isOpen, setIsOpen}) => {
     const [carData, setCarData] = useState([]);
     const [selectPrice, setSelectPrice] = useState();
     const [selectBodyType, setSelectBodyType] = useState();
-
+    
     let result = null;
     let price =  "+price_per_min";
 
@@ -100,6 +100,7 @@ const Sidebar = ({isOpen, setIsOpen}) => {
                         title = {item.make + " " + item.model}
                         variant = {item.category_type}
                         price = {item.price_per_min + " грн/хв"}
+                        registration_number = {item.registration_number}
                         body_type = {item.body_type}
                         latitude = {item.latitude}
                         longitude = {item.longitude}
