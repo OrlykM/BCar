@@ -24,7 +24,7 @@ class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.all()
     def get_permissions(self):
         if self.action in ['post']:
-            permission_classes = (permissions.IsAuthenticated, )
+            permission_classes = (permissions.AllowAny, )#IsAuthenticated, )
             return [permission() for permission in permission_classes]
         if self.action in ['show']:
             permission_classes = (permissions.IsAuthenticated, )
@@ -62,6 +62,7 @@ class CarViewSet(viewsets.ModelViewSet):
             return Response({"Car": "Not fount"}, status=status.HTTP_404_NOT_FOUND)
         return Response(CarSerializer(all).data)
     def post(self, request, *args, **kwargs):
+
         super().create(request)
         current_car = Car.objects.get(vin_code=request.data['vin_code'])
         data = ({'user': request.user.id,
@@ -73,6 +74,7 @@ class CarViewSet(viewsets.ModelViewSet):
             order_serializer.save()
             return Response(order_serializer.data, status=status.HTTP_201_CREATED)
         return Response(order_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def update(self, request, *args, **kwargs):
         super().update(request, *args, **kwargs)
         instance = self.get_object()
