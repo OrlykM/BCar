@@ -1,3 +1,5 @@
-Go to {{ activate_url }}
+Hi, to activate your account on BCar follow this link:
+{{ activate_url }}
 
-Change text
+
+Kind regards BCar !

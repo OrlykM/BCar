@@ -49,7 +49,7 @@ const [category, setCategory] = useState('');
                 result = await response.json();
                 console.log(result);
                 car_id = result;
-                not_ended_url = `/car/${car_id}/rent`;
+                not_ended_url = `/order`;
                 setNotEndedUrl(not_ended_url);
                 if (car_id != 0) {
                     setRedirectOrder(true);

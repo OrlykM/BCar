@@ -1,8 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './mapPageHeader.css'
 import Hamburger from 'hamburger-react'
 
 const MapPageHeader = ({onClose, isOpen}) => {
+    const [amount, setAmount] = useState(0);
+    let token = localStorage.getItem("token");
+    let user_id = localStorage.getItem("user_id");
+    fetch(`http://localhost:8000/user/wallet/${user_id}/`,
+            {
+                method: 'GET',
+                headers:
+                    {
+                        "Content-Type": "application/json;charset=utf-8",
+                        "Authorization": `Token ${token}`,
+                    },
+            }).then(async(response) => {
+           if (response.ok) {
+                // make popup with sentence like : "Email was sent. Check it"
+                // setRedirectHome(true);
+                // will succeed unless server logic or your logic is off
+                const result_1 = await response.json();
+                setAmount(Math.floor(result_1));
+                console.log(result_1);
+           }
+           })
     return (
         <header className="fixed-top p-3 mb-3 ">
             <div className="px-5">
@@ -28,7 +49,7 @@ const MapPageHeader = ({onClose, isOpen}) => {
                                  className="rounded-circle"/>
                         </a>
                         <ul className="dropdown-menu text-small" style={{background:"#9ab7ff", borderWidth:"2px", borderColor:"#06102d", fontSize:"20px"}}>
-                            <a className="dropdown-item">Current balance: balance</a>
+                            <a className="dropdown-item">Current balance: {amount} UAH</a>
                             <li>
                                 <hr className="dropdown-divider"/>
                             </li>

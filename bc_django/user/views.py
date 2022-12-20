@@ -19,10 +19,20 @@ from collections import defaultdict
 from .serializers import *
 from .perms import *
 import json
+from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser, JSONParser
+
+
+class GetCurrentUserId(viewsets.ModelViewSet):
+    def get(self, request, **kwargs):
+        return Response(request.user.id)
+
 
 class WalletView(viewsets.ModelViewSet):
     serializer_class = WalletSerializer
 
+    def get(self, request, **kwargs):
+        user = CustomUser.objects.get(pk=request.user.id)
+        return Response(user.money)
     def put(self, request, **kwargs):
         if float(request.data['money']) < 0:
             return Response({'message': 'Cannot add less than 0'},
@@ -40,6 +50,7 @@ class WalletView(viewsets.ModelViewSet):
             return Response(data['money'], status=status.HTTP_201_CREATED)
         return Response(wallet_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class OwnerInfoView(viewsets.ModelViewSet):
     queryset = Car.objects.all()
 
@@ -49,28 +60,28 @@ class OwnerInfoView(viewsets.ModelViewSet):
             if self.request.method == 'GET':
                 return OwnerInfoSerializer
 
-    # def get_permissions(self):
-    #     if self.action in ['list'] and self.request.user.is_staff == 1:
-    #         permission_classes = (IsModerator,)
-    #         return [permission() for permission in permission_classes]
-    #     elif self.action in ['list'] and self.request.user.is_staff == 0:
-    #         permission_classes = (IsOwner,)
-    #         return [permission() for permission in permission_classes]
-    #     if self.action in ['update']:
-    #         permission_classes = (IsOwner,)
-    #         return [permission() for permission in permission_classes]
-    #     if self.action in ['delete'] and self.request.user.is_superuser == 1:
-    #         permission_classes = (permissions.IsAdminUser,)
-    #         return [permission() for permission in permission_classes]
-    #     elif self.action in ['delete'] and self.request.user.is_superuser == 0:
-    #         permission_classes = (IsOwner,)
-    #         return [permission() for permission in permission_classes]
-    #     if self.action in ['show2']:
-    #         permission_classes = (IsOwner,)
-    #         return [permission() for permission in permission_classes]
-    #     if self.action in ['show']:
-    #         permission_classes = (IsModerator,)
-    #         return [permission() for permission in permission_classes]
+    def get_permissions(self):
+        if self.action in ['list'] and self.request.user.is_staff == 1:
+            permission_classes = (IsModerator,)
+            return [permission() for permission in permission_classes]
+        elif self.action in ['list'] and self.request.user.is_staff == 0:
+            permission_classes = (IsOwner,)
+            return [permission() for permission in permission_classes]
+        if self.action in ['update']:
+            permission_classes = (IsOwner,)
+            return [permission() for permission in permission_classes]
+        if self.action in ['delete'] and self.request.user.is_superuser == 1:
+            permission_classes = (permissions.IsAdminUser,)
+            return [permission() for permission in permission_classes]
+        elif self.action in ['delete'] and self.request.user.is_superuser == 0:
+            permission_classes = (IsOwner,)
+            return [permission() for permission in permission_classes]
+        if self.action in ['show2']:
+            permission_classes = (IsOwner,)
+            return [permission() for permission in permission_classes]
+        if self.action in ['show']:
+            permission_classes = (IsModerator,)
+            return [permission() for permission in permission_classes]
 
     def list(self, request, *args, **kwargs):
         serializer_tmp = OwnerInfoSerializer(data=request.data)
@@ -142,7 +153,7 @@ class OwnerInfoView(viewsets.ModelViewSet):
             return Response({"User": "Not fount"},
                             status=status.HTTP_404_NOT_FOUND)
         super().update(request, *args, **kwargs)
-        user_obj2 = CustomUser.objects.fileter(id=kwargs['user_id']).last()
+        user_obj2 = CustomUser.objects.filter(id=kwargs['user_id']).last()
         return Response(CustomUserInfo(user_obj2).data)
 
     def delete(self, request, *args, **kwargs):
@@ -154,19 +165,20 @@ class OwnerInfoView(viewsets.ModelViewSet):
             return Response({'user': 'Not found'},
                             status=status.HTTP_404_NOT_FOUND)
 
+
 class OrderView(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
 
-    # def get_permissions(self):
-    #     if self.action in ['put', 'post']:
-    #         # permission_classes = (IsOwner,)
-    #     return [permission() for permission in permission_classes]
+    def get_permissions(self):
+        if self.action in ['put', 'post']:
+            permission_classes = (IsOwner,)
+        return [permission() for permission in permission_classes]
 
     def post(self, request, **kwargs):
-        if CustomUser.objects.get(pk=kwargs['user_id']).lic_serial is None:
+        if CustomUser.objects.get(pk=kwargs['user_id']).lic_serial is None or CustomUser.objects.get(pk=kwargs['user_id']).lic_serial == '':
             return Response("User has no driver license",
                             status=status.HTTP_403_FORBIDDEN)
-        if CustomUser.objects.get(pk=kwargs['user_id']).money < 200:
+        if CustomUser.objects.get(pk=kwargs['user_id']).money < 400:
             return Response("User has no money for order",
                             status=status.HTTP_400_BAD_REQUEST)
         try:
@@ -206,7 +218,7 @@ class OrderView(viewsets.ModelViewSet):
             car_data = ({'available_now': 1})
             car_serializer = CarSerializerUpdate(rented_car, data=car_data)
 
-            order_price = ((date_end - order.date_creation).total_seconds() / 60) * rented_car.price_per_min
+            order_price = 20 + ((date_end - order.date_creation).total_seconds() / 60) * rented_car.price_per_min
             data.update({'date_end': date_end,
                          'order_price': order_price})
             order_serializer = OrderSerializer(order, data=data)
@@ -232,46 +244,6 @@ class OrderView(viewsets.ModelViewSet):
         return Response(order_serializer.errors,
                         status=status.HTTP_400_BAD_REQUEST)
 
-class CustomAuthToken(ObtainAuthToken):
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data,
-                                           context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'token': token.key,
-            'user_id': user.pk,
-            'email': user.email
-        })
-
-class UploadLic(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = LicSerializerGET
-    #def get_permissions(self):
-     #   if self.action in ['get', 'put']:
-      #      permission_classes = (permissions.AllowAny)#IsOwner)
-       #     return [permission() for permission in permission_classes]
-    def put(self, request, *args, **kwargs):
-        user_obj = CustomUser.objects.filter(id=kwargs['user_id']).last()
-        if user_obj is None:
-            return Response({"User": "Not found"},  status=status.HTTP_404_NOT_FOUND)
-        super().update(request, *args, **kwargs)
-        return Response(LicSerializerGET(user_obj).data())
-
-    def get(self, request, *args, **kwargs):
-        user_obj = CustomUser.objects.filter(id=kwargs['user_id']).last()
-        if user_obj is None:
-            return Response({"User": "Not found"}, status=status.HTTP_404_NOT_FOUND)
-        return Response(
-                        {
-                           "lic_serial":user_obj.lic_serial,
-                        }
-                    )
-
-class GetCurrentUserId(viewsets.ModelViewSet):
-    def get(self, request, **kwargs):
-        return Response(request.user.id)
 
 class LastOrderView(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
@@ -289,3 +261,72 @@ class LastOrderView(viewsets.ModelViewSet):
             return Response(car_id)
         except:
             return Response(0)
+
+
+class CustomAuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'user_id': user.pk,
+            'email': user.email
+        })
+
+
+class UploadLic(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = LicSerializerGET
+
+    def put(self, request, *args, **kwargs):
+        user_obj = CustomUser.objects.filter(pk=kwargs['pk']).last()
+        if user_obj is None:
+            return Response({"User": "Not found"},  status=status.HTTP_404_NOT_FOUND)
+        super().update(request, *args, **kwargs)
+        return Response('Changed')
+
+    def get(self, request, *args, **kwargs):
+        user_obj = CustomUser.objects.filter(pk=kwargs['pk']).last()
+        if user_obj is None:
+            return Response({"User": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+        return Response(
+                        {
+                           "lic_serial":user_obj.lic_serial,
+                        }
+                    )
+
+
+class GetInfoOrder(viewsets.ModelViewSet):
+    def get(self, request, **kwargs):
+        user_id_in = request.user.id
+        print(request.user.id)
+        if user_id_in is None:
+            return Response({"Error": "not authorized "},
+                            status=status.HTTP_401_UNAUTHORIZED)
+
+        print("User_id", user_id_in, sep=" ")
+        order = Order.objects.filter(user_id=user_id_in, order_type='renting').exclude(
+            date_end__isnull=False).last()
+        print("Order", order, sep=" ")
+        if order is None:
+            return Response({"Error": "Order not found"},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        print("CAr_id", order.car_id)
+
+        car_obj = Car.objects.get(id=order.car_id)
+
+        if car_obj:
+            setattr(order, 'make', car_obj.make)
+            setattr(order, 'model', car_obj.model)
+            setattr(order, 'price_per_min', car_obj.price_per_min)
+            setattr(order, 'registration_number', car_obj.registration_number)
+            setattr(order, 'car_id', car_obj.id)
+
+        order_serializer = GetOrderInfo(order)
+        print(order_serializer)
+        # order = GetInfoOrder(order_serializer)
+        return Response(order_serializer.data)

@@ -12,6 +12,7 @@ const Index = () => {
     const [redirectLicense,setRedirectLicense] = useState(false);
     const [redirectLogin,setRedirectLogin] = useState(false);
     const [redirectOrder,setRedirectOrder] = useState(false);
+    const [redirectWallet,setRedirectWallet] = useState(false);
     const [notEndedUrl, setNotEndedUrl] = useState('');
     let not_ended_url;
 
@@ -78,8 +79,9 @@ const Index = () => {
                    {
                         const result_1 = await response.json();
                         console.log(result_1);
-                        not_ended_url = `/car/${params.carId}/rent`;
+                        not_ended_url = `/order`;
                         setNotEndedUrl(not_ended_url);
+                        setRedirectOrder(true);
                    }
                    if (response.status === 401)
                    {
@@ -88,21 +90,28 @@ const Index = () => {
                    if (response.status === 403)
                    {
                        setRedirectLicense(true);
+                   }
+                   if (response.status === 400)
+                   {
+                       not_ended_url = `/balance`;
+                       setNotEndedUrl(not_ended_url);
+                       setRedirectWallet(true);
                    };})
     }
-    
+    let image_url = "http://localhost:8000" + carData?.photo;
     return (
 
         <section className="rent vh-100 pt-5" id="rent">
             <div className='container'>
                 {redirectLogin && <Navigate to={"/login"} />}
-            {redirectLicense && <Navigate to={"/register/UploadDrivingLicense"} />}
-            {redirectOrder && <Navigate to={notEndedUrl} />}
+                {redirectLicense && <Navigate to={"/register/UploadDrivingLicense"} />}
+                {redirectOrder && <Navigate to={notEndedUrl} />}
+                {redirectWallet && <Navigate to={notEndedUrl} />}
                 <div className="row pt-5">
                     <div className="col-sm">
                         <img className="img-fluid"
-                             src="https://www.bmwgroup.com/content/dam/grpw/websites/bmwgroup_com/News/2022/720x720_P90433010_highRes_bmw-ix5-hydrogen-08-.jpg.grp-transform/small/720x720_P90433010_highRes_bmw-ix5-hydrogen-08-.jpg"
-                             width={500} height={500} alt=''/>
+                             src={image_url}
+                             width={500} height={500} alt={carData?.photo}/>
                     </div>
                     {/*Марка, модель, рік випуску, тип кузову, клас, реєстраційний номер*/}
                     <div className="col-lg-4">
@@ -110,7 +119,7 @@ const Index = () => {
                             <div className="card-body">
                                 <h5 className="card-title text-uppercase text-center">{carData?.make}</h5>
                                 <h5 className="card-title text-uppercase text-center">{carData?.model}</h5>
-                                <h6 className="card-price text-center">$2<span className="period">/min</span></h6>
+                                <h6 className="card-price text-center">{carData?.price_per_min} UAH<span className="period">/min</span></h6>
                                 <hr/>
                                 <ul className="fa-ul">
                                 <li><span className="fa-li"><i className="fas fa-check"></i></span><strong>{carData?.category_type}</strong>

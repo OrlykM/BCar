@@ -1,12 +1,13 @@
 import React from "react";
 import "./loginform.css";
-import {useState} from "react";
-import {Link} from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import ErrorDisplay from "../../../modal/Modal";
-import {Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
+
 
 const LoginForm = () => {
-      const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirectHome, setRedirectHome] = useState("");

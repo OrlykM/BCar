@@ -35,30 +35,6 @@ const ServiceSection = () => {
                         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem incidunt sunt
                             molestiae!</p>
                     </div>
-                    <div className="col-lg-4 col-sm-6 p-4">
-                        <div className="icon-box">
-                            <i className='bx bxs-check-shield'></i>
-                        </div>
-                        <h4 className="title-sm mt-4">Safe</h4>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem incidunt sunt
-                            molestiae!</p>
-                    </div>
-                    <div className="col-lg-4 col-sm-6 p-4">
-                        <div className="icon-box">
-                            <i className='bx bx-laptop'></i>
-                        </div>
-                        <h4 className="title-sm mt-4">Web Designing</h4>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem incidunt sunt
-                            molestiae!</p>
-                    </div>
-                    <div className="col-lg-4 col-sm-6 p-4">
-                        <div className="icon-box">
-                            <i className='bx bxs-happy-heart-eyes'></i>
-                        </div>
-                        <h4 className="title-sm mt-4">UI Design</h4>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem incidunt sunt
-                            molestiae!</p>
-                    </div>
                 </div>
             </div>
         </section>

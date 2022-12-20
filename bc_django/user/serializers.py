@@ -114,3 +114,26 @@ class LicSerializerGET(serializers.ModelSerializer):
             "lic_serial",
             "lic_photo"
         )
+
+class GetOrderInfo(serializers.ModelSerializer):
+    car_id = serializers.IntegerField(read_only=True)
+    make = serializers.CharField(read_only=True)
+    model = serializers.CharField(read_only=True)
+    registration_number = serializers.CharField(read_only=True)
+    price_per_min = serializers.FloatField(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = (
+            "car_id",
+            "id",
+            "user_id",
+            "date_creation",
+            "date_end",
+            "order_price",
+            "order_type",
+            "make",
+            "model",
+            "price_per_min",
+            "registration_number",
+        )

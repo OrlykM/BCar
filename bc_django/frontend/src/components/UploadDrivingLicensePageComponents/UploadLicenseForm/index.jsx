@@ -5,7 +5,7 @@ import {Navigate, useNavigate} from "react-router-dom";
 import ErrorDisplay from "../../../modal/Modal";
 
 const UploadCarPhotos = () => {
-       const navigate = useNavigate();
+    const navigate = useNavigate();
     const {acceptedFiles, getRootProps, getInputProps} = useDropzone({
         accept: {
             'image/png': ['.png'],

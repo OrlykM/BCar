@@ -19,7 +19,7 @@ const Home = () => {
             <HeroSection/>
             <ServiceSection/>
             <PortfolioSection/>
-            <FeaturesSection/>
+            {/*<FeaturesSection/>*/}
             {token ?
                 (<div style={{height: "1px", backgroundColor:"#1d1b1b"}}>
                 </div>): null}

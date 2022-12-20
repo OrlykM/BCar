@@ -8,8 +8,7 @@ const HeroSection = () => {
                 <div className="row justify-content-center">
                     <div className="col-md-10">
                         <h1 className="text-white display-4"><b>Carsharing BCar – comfortable car rental</b></h1>
-                        <p className="text-white">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                            Exercitationem incidunt sunt molestiae!</p>
+                        <p className="text-white">Сила лісу сила землі філософія психологія мотивація твоя сильна</p>
 
                     </div>
                 </div>
