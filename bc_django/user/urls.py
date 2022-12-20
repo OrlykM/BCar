@@ -15,7 +15,7 @@ urlpatterns = [
     path('auth/login/', LoginView.as_view(), name='login_page'),
     path('auth/logout/', LogoutView.as_view(), name='logout_page'),
     path('auth/register/', include('dj_rest_auth.registration.urls')),
-    #path('auth/licregister/', LicenseViewSet.as_view({'post':'create'}), name='licence_register_page'),
+    # path('auth/licregister/', LicenseViewSet.as_view({'post':'create'}), name='licence_register_page'),
     path(
         'auth/account-confirm-email/',
         VerifyEmailView.as_view(),
@@ -32,14 +32,21 @@ urlpatterns = [
 
     path(
         'order/new/<int:user_id>/<int:car_id>/',
-        OrderView.as_view({"post":"post", "put":"put"}), name='car_order_start'
+        OrderView.as_view({"post": "post", "put": "put"}), name='car_order_start'
     ),
-
 
     path(
         '<int:user_id>/car/getinfo/',
         OwnerInfoView.as_view({'get': 'list'}),
     ),
-    path('<int:user_id>', OwnerInfoView.as_view({"get": "show", "delete":"delete"}), ),  #admin, moderator
-    path('<int:user_id>/settings', OwnerInfoView.as_view({"get":"show2", "put": "update", "delete":"delete"}), ) ,  #owner
+    path('<int:user_id>', OwnerInfoView.as_view({"get": "show", "delete": "delete"}), ),  # admin, moderator
+    path('<int:user_id>/settings', OwnerInfoView.as_view({"get": "show2", "put": "update", "delete": "delete"}), ),
+    # owner
+    path('wallet/<int:user_id>/', WalletView.as_view({"put": "put"}), name='wallet_update'),
+    path("<int:user_id>/upload_lic/", UploadLic.as_view({"put":"put", "get":"get"}), ),
+    path('getId/', GetCurrentUserId.as_view({"get": "get"}, name='get_user_id')),
+    path(
+        'order/last/<int:user_id>/',
+        LastOrderView.as_view({"get": "get"}), name='car_order_last'
+    ),
 ]

@@ -101,7 +101,7 @@ DATABASES = {
         'USER': 'bc_admin',
         'PASSWORD': '12345QWERT12345',
         'HOST': '127.0.0.1',  # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'PORT': '5900',
     }
 }
 
@@ -145,13 +145,14 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 LOGIN_URL = 'https://localhost:8000/user/auth/login/'
 #REST_USE_JWT = True
 #JWT_AUTH_COOKIE = 'bc' # The cookie key name can be the one you want
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_PORT = '587'
-EMAIL_HOST_TLS = True
-EMAIL_HOST_USER = 'carsharing.project1@gmail.com'
-EMAIL_HOST_USER_PASSWORD = 'eoksboigzeygdztv'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'banderacarsmtp@gmail.com'
+EMAIL_HOST_PASSWORD = 'vggzbhnruybzkcck'
 PASSWORD_RESET_TIMEOUT_DAYS = 1
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'user.serializers.CustomUserDetailsSerializer',
@@ -203,7 +204,8 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
+print(MEDIA_ROOT)
 MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

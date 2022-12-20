@@ -35,7 +35,7 @@ const Confirmation = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: "#226a3f"
+                background: "radial-gradient(circle, #2e59af, #071843)"
             }}>
                 <section className="vh-100 bg-image">
                     <div className="mask d-flex align-items-center h-100 gradient-custom-3">

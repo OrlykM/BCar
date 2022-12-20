@@ -1,5 +1,5 @@
 #home {
-    background: linear-gradient(rgba(8, 1, 1, 0.8), rgb(0, 0, 0)), url(../../../assets/img/hero_img1.jpg);
+    background: linear-gradient(rgba(4, 12, 25, 0.8), rgb(0, 0, 0)), url(../../../assets/img/hero_img1.jpg);
     min-height: 100vh;
     background-size: cover;
     background-position: center;

@@ -4,14 +4,21 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.serializers import ValidationError
 from rest_framework.validators import UniqueValidator
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MinValueValidator
 from allauth.account.adapter import get_adapter
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
 def required(value):
     if value is None:
         raise Exeption('This field is required')
+class WalletSerializer(serializers.ModelSerializer):
+    money = serializers.FloatField(validators=[MinValueValidator(0)], required=True)
 
+    class Meta:
+        model = CustomUser
+        fields = (
+            "money",
+        )
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
     car = serializers.PrimaryKeyRelatedField(queryset=Car.objects.all())
@@ -60,7 +67,6 @@ class CustomRegisterSerializer(RegisterSerializer):
         user.lic_serial = self.data.get('lic_serial')
         user.save()
         return user
-
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -87,7 +93,6 @@ class OwnerInfoSerializer(serializers.ModelSerializer):
 
         read_only_fields = (
             'make', 'model', 'category_type', 'registration_number', 'profit')
-
 class CustomUserInfo(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -98,5 +103,14 @@ class CustomUserInfo(serializers.ModelSerializer):
             "email",
             "lic_serial",
             "is_active",
-            "rating"
+            "rating",
+        )
+
+class LicSerializerGET(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = (
+            "lic_date_birth",
+            "lic_serial",
+            "lic_photo"
         )

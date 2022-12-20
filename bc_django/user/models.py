@@ -6,8 +6,15 @@ from django.utils.translation import gettext_lazy as _
 from car.models import *
 from datetime import datetime
 from django.utils import timezone
-
-
+from bc_django.settings import *
+def upload(instance, filename):
+    DIR = '../media/user/{userId}/license/'.format(userId=instance.id)
+    if os.path.exists(DIR) == True:
+        len_ = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+        return 'user/{userId}/license/{filename}'.format(userId=instance.id,
+                                               filename=(str(instance.lic_serial) + "_" + str(len_+1) + ".jpg"))
+    else:
+        return 'user/{userId}/license/{filename}'.format(userId=instance.id, filename=(str(instance.lic_serial) + "_"+ str(1) +".jpg"))
 class CustomAccountManager(BaseUserManager):
     def create_user(self, phone, email, lic_serial, password, **other_fields):
         if not phone:
@@ -39,8 +46,6 @@ class CustomAccountManager(BaseUserManager):
         if other_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must be assigned to is_superuser=True.')
         return self.create_user(phone, email, lic_serial, password, **other_fields)
-
-
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=150)
     middle_name = models.CharField(max_length=150)
@@ -57,21 +62,19 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_allowed_orders = models.IntegerField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(default=timezone.now)
-
     lic_date_birth = models.DateField(null=True)
     lic_date_issue = models.DateField(null=True)
     lic_date_completion = models.DateField(null=True)
-    lic_serial = models.CharField(unique=True, max_length=9, null=True)
-    lic_photo = models.CharField(max_length=254, blank=True, null=True)
+    lic_serial = models.CharField(unique=True, max_length=9, blank=True, null=True)
+    lic_photo = models.ImageField(upload_to=upload, null=True)
+    money = models.FloatField(default=0)
 
     USERNAME_FIELD = 'phone'
-    REQUIRED_FIELDS = ['email', 'lic_serial']
+    REQUIRED_FIELDS = ['email']
     objects = CustomAccountManager()
 
     def __str__(self):
         return self.phone
-
-
 class Employee(models.Model):
     first_name = models.CharField(max_length=50)
     second_name = models.CharField(max_length=50)
@@ -93,8 +96,6 @@ class Employee(models.Model):
 
     def __str__(self):
         return (self.phone)
-
-
 class Maintain(models.Model):
     employee = models.ForeignKey(Employee, models.DO_NOTHING)
     car = models.ForeignKey(Car, models.DO_NOTHING)
@@ -105,8 +106,6 @@ class Maintain(models.Model):
         managed = True
         db_table = 'maintain'
         unique_together = (('id', 'employee', 'car'),)
-
-
 class Order(models.Model):
     user = models.ForeignKey('user.CustomUser', models.DO_NOTHING)
     car = models.ForeignKey(Car, models.DO_NOTHING)
@@ -119,8 +118,6 @@ class Order(models.Model):
         managed = True
         db_table = 'order'
         unique_together = (('id', 'user', 'car'),)
-
-
 class Review(models.Model):
     user = models.ForeignKey('user.CustomUser', models.DO_NOTHING)
     car = models.ForeignKey(Car, models.DO_NOTHING)

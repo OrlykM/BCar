@@ -54,7 +54,7 @@ section.pricing {
 }
 .abc:hover{
 
-    background-color: red!important;
+    background-color: #0011ff !important;
 }
 .btn {
     font-weight: 700;
@@ -64,8 +64,8 @@ section.pricing {
     border-radius: 0;
 }
 .pricing .btn {
-    outline-color: red;
-    background: #cf2d16;
+    outline-color: #fff700;
+    background: #cfc916;
     font-size: 80%;
     border-radius: 5rem;
     letter-spacing: .1rem;

@@ -54,7 +54,7 @@ section.rent {
 }
 .abc:hover{
 
-    background-color: red!important;
+    background-color: #ffea00 !important;
 }
 .btn {
     font-weight: 700;
@@ -64,8 +64,8 @@ section.rent {
     border-radius: 0;
 }
 .rent .btn {
-    outline-color: red;
-    background: #cf2d16;
+    outline-color: #fbff00;
+    background: #fbff00;
     font-size: 80%;
     border-radius: 5rem;
     letter-spacing: .1rem;

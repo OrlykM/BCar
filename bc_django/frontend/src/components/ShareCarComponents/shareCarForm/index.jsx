@@ -92,7 +92,14 @@ const ShareCarForm = () => {
 
                     </div>
                 </div>
-
+                <div className="d-flex justify-content-center">
+                    <button className="button-87" role="button">Send</button>
+                    {/*<button type="submit"*/}
+                    {/*        className="btn btn-warning btn-block btn-lg gradient-custom-4 text-white"*/}
+                    {/*        >*/}
+                    {/*    Send*/}
+                    {/*</button>*/}
+                </div>
             </form>
         </div>
     );

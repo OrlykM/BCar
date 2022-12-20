@@ -31,7 +31,7 @@ class CarViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ['post']:
-            permission_classes = (permissions.IsAuthenticated,)
+            permission_classes = (permissions.AllowAny, )#IsAuthenticated,)
             return [permission() for permission in permission_classes]
         if self.action in ['show']:
             permission_classes = (permissions.IsAuthenticated,)
@@ -42,7 +42,7 @@ class CarViewSet(viewsets.ModelViewSet):
             return [permission() for permission in permission_classes]
     
         if self.action in ['approve', 'show_all_status']:
-            permission_classes = (IsModerator,)
+            permission_classes = (permissions.AllowAny,)#IsModerator,)
             return [permission() for permission in permission_classes]
     
         if self.action in [

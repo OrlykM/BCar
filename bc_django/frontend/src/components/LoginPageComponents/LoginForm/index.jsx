@@ -1,13 +1,12 @@
 import React from "react";
 import "./loginform.css";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import {useState} from "react";
+import {Link} from "react-router-dom";
 import ErrorDisplay from "../../../modal/Modal";
-import { Navigate } from "react-router-dom";
-
+import {Navigate} from "react-router-dom";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("");
+      const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirectHome, setRedirectHome] = useState("");
@@ -40,7 +39,23 @@ const LoginForm = () => {
           const result = await response.json();
           // will succeed unless server logic or your logic is off
           console.log(result);
-          sessionStorage.setItem("user", result.key);
+          localStorage.setItem("token", result.key);
+            fetch(`http://127.0.0.1:8000/user/getId/`,
+                    {
+                        method: 'GET',
+                        headers:
+                            {
+                                "Content-Type": "application/json;charset=utf-8",
+                                "Authorization": `Token ${result.key}`,
+                            },
+                    }).then(async(response) => {
+                        if (response.ok) {
+                          const id_result = await response.json();
+                          // will succeed unless server logic or your logic is off
+                          console.log(id_result);
+                          localStorage.setItem("user_id", id_result);
+                        }
+                    });
         } else if (response.status === 400) {
           // will succeed if the server will always respond with JSON with a 400 response
           const result = await response.json();
@@ -70,73 +85,73 @@ const LoginForm = () => {
       });
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className="form-outline mb-4">
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          id="form3Example3cg"
-          className="form-control form-control-lg  bg-dark text-white"
-        />
-        <label className="form-label" htmlFor="form3Example3cg">
-          {emailError ? emailError : "Your Email"}
-        </label>
-      </div>
+    return (
+        <form onSubmit={handleSubmit}>
+            <div className="form-outline mb-4">
+                <input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    type="email"
+                    id="form3Example3cg"
+                    className="form-control form-control-lg  bg-dark text-white"
+                />
+                <label className="form-label" htmlFor="form3Example3cg">
+                    {emailError ? emailError : "Your Email"}
+                </label>
+            </div>
 
-      <div className="form-outline mb-4">
-        <input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          id="form3Example4cg"
-          className="form-control form-control-lg  bg-dark text-white"
-        />
-        <label className="form-label" htmlFor="form3Example4cg">
-          {passwordError ? passwordError : "Your Password"}
-        </label>
-      </div>
+            <div className="form-outline mb-4">
+                <input
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                    id="form3Example4cg"
+                    className="form-control form-control-lg  bg-dark text-white"
+                />
+                <label className="form-label" htmlFor="form3Example4cg">
+                    {passwordError ? passwordError : "Your Password"}
+                </label>
+            </div>
 
-      <ErrorDisplay active={loginError} setActive={setLoginError}>
-        Unable to log in
-      </ErrorDisplay>
+            <ErrorDisplay active={loginError} setActive={setLoginError}>
+                Unable to log in
+            </ErrorDisplay>
 
-      <ErrorDisplay
-        active={emailVerifiedError}
-        setActive={setEmailVerifiedError}
-      >
-        Email is not verified
-      </ErrorDisplay>
+            <ErrorDisplay
+                active={emailVerifiedError}
+                setActive={setEmailVerifiedError}
+            >
+                Email is not verified
+            </ErrorDisplay>
 
-      <p className="small mb-3 pb-lg-10 text-end">
-        <a href="#" className="text-white-50">
-          <Link to="/reset">
-            <u>Forgot password</u>
-          </Link>
-        </a>
-      </p>
+            <p className="small mb-3 pb-lg-10 text-end">
+                <a href="#" className="text-white-50">
+                    <Link to="/reset">
+                        <u>Forgot password?</u>
+                    </Link>
+                </a>
+            </p>
 
-      <div className="d-flex justify-content-center">
-        <button
-          type="submit"
-          className="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
-        >
-          Login
-        </button>
-        {redirectHome && <Navigate to="/" />}
-      </div>
+            <div className="d-flex justify-content-center">
+                <button
+                    type="submit"
+                    className="btn btn-warning btn-block btn-lg gradient-custom-4 text-body"
+                >
+                    Login
+                </button>
+                {redirectHome && <Navigate to="/map"/>}
+            </div>
 
-      <p className="text-center text-muted mt-5 mb-0">
-        Don`t have an account?
-        <a href="#" className="fw-bold text-body">
-          <Link to="/register">
-            <u>Register here</u>
-          </Link>
-        </a>
-      </p>
-    </form>
-  );
+            <p className="text-center text-muted mt-5 mb-0">
+                Don`t have an account?
+                <a href="#" className="fw-bold text-body">
+                    <Link to="/register">
+                        <u>Register here</u>
+                    </Link>
+                </a>
+            </p>
+        </form>
+    );
 };
 
 export default LoginForm;

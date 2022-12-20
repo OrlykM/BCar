@@ -9,7 +9,7 @@ const CtaSection = () => {
                         <h3 className="text-white">Try just now.</h3>
                     </div>
                     <div className="col-auto">
-                        <a href="#" className="btn btn-dark">LOG IN</a>
+                        <a href="/register" className="btn btn-dark">Register</a>
                     </div>
                 </div>
             </div>

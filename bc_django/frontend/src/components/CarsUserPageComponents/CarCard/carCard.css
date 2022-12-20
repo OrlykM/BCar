@@ -1,0 +1,77 @@
+.carsCard {
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(0, 0, 0, 0.99);
+    background: #0b0b3b;
+    padding-bottom: 10px;
+}
+
+.carsCard__image {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+}
+
+.carsCard__image img {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carsCard__info {
+    padding: 5px 10px;
+}
+
+.carsCard__info h2 {
+    text-transform: uppercase;
+}
+
+.carsCard__info p {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* CSS */
+.button-24 {
+    background: transparent;
+    border: 1px solid #FF4742;
+    width:100%;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+
+.button-24:hover,
+.button-24:active {
+    background-color: #a61a1a;
+    background-position: 0 0;
+
+}
+
+.button-24:active {
+    opacity: .5;
+}

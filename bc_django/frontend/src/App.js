@@ -11,6 +11,9 @@ import UploadDrivingLicense from "./pages/UploadDrivingLicense";
 import CarRentPage from "./pages/carRentPage";
 import ShareCar from "./pages/shareCar";
 import Confirmation from "./pages/confirmation";
+import Order from "./pages/order";
+import CarsUser from "./pages/CarsUser";
+import CardBalance from "./pages/cardBalance";
 
 function App() {
   return (
@@ -25,6 +28,9 @@ function App() {
         <Route path="/car/:carId/rent" element={<CarRentPage/>}/>
         <Route path="/share/car" element={<ShareCar/>}/>
         <Route path="/register/confirmation/:key" element={<Confirmation />}/>
+        <Route path="/order" element={<Order />}/>
+        <Route path="/user/cars" element={<CarsUser/>}/>
+        <Route path="/balance" element={<CardBalance/>}/>
         <Route path="*" element={<NotFoundPage />}/>
 
     </Routes>

@@ -77,14 +77,14 @@ const Register = () => {
     }
     return (
 
-        <section className="vh-100 bg-image" style={{background: "#343131"}}>
+        <section className="vh-100 bg-image" style={{background: "radial-gradient(circle, #2e59af, #071843)"}}>
             <div className="mask d-flex align-items-center h-100 gradient-custom-3">
                 <div className="container h-120">
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-12 col-md-9 col-lg-7 col-xl-6">
                             <div className="card" style={{background: "#000000", borderRadius:"15px"}}>
                                 <div className="card-body p-5">
-                                    <h2 className="text-uppercase text-center mb-5">Create an account</h2>
+                                    <h2 className="text-uppercase text-center mb-5">Create new account</h2>
 
                                     <form>
                                         <div className="phone">
@@ -94,21 +94,21 @@ const Register = () => {
                                             <label className="form-label" htmlFor="form3Example1cg">{isPhoneError ? isPhoneError : 'Your Phone'}</label>
                                         </div>
 
-                                        <div className="email">
+                                        <div className="email" style={{marginTop:"25px"}}>
                                             <input type="email" id="email"
                                                    value={email}  onChange={(e) => setEmail(e.target.value)} placeholder="email"
                                                    className="form-control form-control-lg bg-dark text-white"/>
                                             <label className="form-label" htmlFor="form3Example3cg">{isEmailError ? isEmailError : 'Your Email'}</label>
                                         </div>
 
-                                        <div className="password">
+                                        <div className="password" style={{marginTop:"25px"}}>
                                             <input type="password" id="password"
                                                    value={password}  onChange={(e) => setPassword(e.target.value)} placeholder="password"
                                                    className="form-control form-control-lg bg-dark text-white"/>
                                             <label className="form-label" htmlFor="form3Example4cg">{isPasswordError ? isPasswordError : 'Password'}</label>
                                         </div>
 
-                                        <div className="confirmPassword">
+                                        <div className="confirmPassword" style={{marginTop:"25px"}}>
                                             <input type="password" id="confirmPassword"
                                                    value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
                                                    placeholder="confirmPassword"
@@ -117,8 +117,8 @@ const Register = () => {
                                         </div>
 
 
-                                        <div className="d-flex justify-content-center">
-                                            <button onClick={handleForSubmit} type="submit" className="btn btn-success btn-block btn-lg gradient-custom-5 text-body"
+                                        <div className="d-flex justify-content-center" style={{marginTop:"25px"}}>
+                                            <button onClick={handleForSubmit} type="submit" className="btn btn-warning btn-block btn-lg gradient-custom-5 text-body"
                                                     href="login.html">Register</button>
                                             {redirectHome && <Navigate to="/" />}
                                         </div>

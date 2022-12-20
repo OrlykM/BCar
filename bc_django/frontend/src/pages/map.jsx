@@ -8,7 +8,7 @@ const MapPage = () => {
     // const [shareData, setShareData] = useState('');
     return (
         <div>
-            <MapPageHeader onClose={() => setIsOpen(prev => !prev)}/>
+            <MapPageHeader isOpen = {isOpen} onClose={() => setIsOpen(prev => !prev)}/>
             <Sidebar isOpen={isOpen} />
             <Map/>
         </div>

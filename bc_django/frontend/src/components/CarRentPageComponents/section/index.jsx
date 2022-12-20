@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallbac, useRef } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import './carrent.css'
-
+import {Navigate, redirect} from "react-router-dom";
 const Index = () => {
     const params = useParams()
     const [carData, setCarData] = useState();
@@ -9,15 +9,40 @@ const Index = () => {
     const dataFetchedRef = useRef(false);
     const navigate = useNavigate();
 
+    const [redirectLicense,setRedirectLicense] = useState(false);
+    const [redirectLogin,setRedirectLogin] = useState(false);
+    const [redirectOrder,setRedirectOrder] = useState(false);
+    const [notEndedUrl, setNotEndedUrl] = useState('');
+    let not_ended_url;
+
+    let token = localStorage.getItem("token");
+    let user_id = localStorage.getItem("user_id");
+
+    fetch(`http://127.0.0.1:8000/user/getId/`,
+            {
+                method: 'GET',
+                headers:
+                    {
+                        "Content-Type": "application/json;charset=utf-8",
+                        "Authorization": `Token ${token}`,
+                    },
+            }).then(async(response) => {
+                if (response.status === 401) {
+                  setRedirectLogin(true);
+                }
+            });
+
     // info about car
     let result = null;
     const fetchData = () => {
+        let token = localStorage.getItem("token");
         fetch(`http://127.0.0.1:8000/car/${params.carId}/get_one/`,
         {
             method: 'GET',
             headers:
             {
-                "Content-Type": "application/json;charset=utf-8"
+                "Content-Type": "application/json;charset=utf-8",
+                "Authorization": `Token ${token}`,
             },
         }).then(async(response) => {
             if (response.ok)
@@ -27,7 +52,7 @@ const Index = () => {
             };});
         console.log('Fetching data...');
     }
-        
+
     useEffect(() => {
         if (dataFetchedRef.current) return;
         dataFetchedRef.current = true;
@@ -38,25 +63,41 @@ const Index = () => {
     const handleForSubmit =  (event) =>
     {
         event.preventDefault();
-            fetch(`http://127.0.0.1:8000/user/order/new/91/${params.carId}/`,
+        let token = localStorage.getItem("token");
+        let user_id = localStorage.getItem("user_id");
+            fetch(`http://127.0.0.1:8000/user/order/new/${user_id}/${params.carId}/`,
                     {
                         method: 'POST',
                         headers:
                             {
-                                "Content-Type": "application/json;charset=utf-8"
+                                "Content-Type": "application/json;charset=utf-8",
+                                "Authorization": `Token ${token}`,
                             },
                     }).then(async(response) => {
                    if (response.ok)
                    {
                         const result_1 = await response.json();
                         console.log(result_1);
-                   };});
+                        not_ended_url = `/car/${params.carId}/rent`;
+                        setNotEndedUrl(not_ended_url);
+                   }
+                   if (response.status === 401)
+                   {
+                       setRedirectLogin(true);
+                   }
+                   if (response.status === 403)
+                   {
+                       setRedirectLicense(true);
+                   };})
     }
     
     return (
 
         <section className="rent vh-100 pt-5" id="rent">
             <div className='container'>
+                {redirectLogin && <Navigate to={"/login"} />}
+            {redirectLicense && <Navigate to={"/register/UploadDrivingLicense"} />}
+            {redirectOrder && <Navigate to={notEndedUrl} />}
                 <div className="row pt-5">
                     <div className="col-sm">
                         <img className="img-fluid"

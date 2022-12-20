@@ -7,7 +7,7 @@ const FooterSection = () => {
                 <div className="container">
                     <div className="row gy-5">
                         <div className="col-md-4">
-                            <h4 className="logo-text">BanderaCar</h4>
+                            <h4 className="logo-text">BCar</h4>
                             <p>Praesent vulputate neque nec sem fermentum porttitor. Mauris eget dolor convallis,
                                 trista, dignissim sapien. Duis vel felis dictu</p>
                             <div className="social-icons">
@@ -49,7 +49,7 @@ const FooterSection = () => {
                 <div className="container">
                     <div className="row justify-content-between gy-3">
                         <div className="col-md-6">
-                            <p className="mb-0">© Agency 2022. All rights reserved</p>
+                            <p className="mb-0">© BCar 2022. All rights reserved</p>
                         </div>
 
                     </div>

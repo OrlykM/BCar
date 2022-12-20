@@ -1,45 +1,59 @@
 .mySidebar {
-    background-color: #464964;
+    background: radial-gradient(circle, #2e59af, #071843);
+    /*background-color: #2e59af;*/
     position: fixed;
     top: 80px;
-    left: 0;
+    left: -1000px;
     width: 350px;
     height: 100%;
-    border: 2px solid black;
+    border: 1.2px solid #070b26;
     z-index: 401;
+    transition: left 0.5s ease-in-out;
+    padding-bottom: 50px;
+}
+
+.mySidebar_open {
+    left: 0;
+
 }
 
 .mySidebar__btns {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 2px solid black;
+    /*border-bottom: 1px solid #00a6ff;*/
     padding: 10px;
 }
 
-.mySidebar__btns button {
-    background: transparent;
-    padding: 6px;
-    font-weight: bold;
-    transition: all 0.2s linear;
-    cursor: pointer;
-    border-radius: 6px;
-}
+/*.mySidebar__btns button {*/
+/*    background: transparent;*/
+/*    padding: 6px;*/
+/*    font-weight: bold;*/
+/*    transition: all 0.2s linear;*/
+/*    cursor: pointer;*/
+/*    border-radius: 6px;*/
+/*}*/
 
-.mySidebar__btns button:hover {
-    background-color: black;
-    color: #fff;
-}
+/*.mySidebar__btns button:hover {*/
+/*    background-color: black;*/
+/*    color: #fff;*/
+/*}*/
 
 .mySidebar__select {
     padding: 10px;
     display: flex;
-    align-items: left;
     justify-content: left;
     gap: 5px;
-    border-bottom: 2px solid black;
+    /*border-bottom: 2px solid black;*/
+    flex-direction: column;
 }
 
+.select__sector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #06102d;
+}
 
 .mySidebar__select label {
     font-weight: bold;
@@ -53,5 +67,117 @@
     overflow-y: scroll;
     gap: 15px;
     height: 100%;
-    padding-bottom: 200px;
+    padding-bottom: 180px;
+}
+
+.mySidebar__cars::-webkit-scrollbar {
+    width: 10px;
+
+}
+
+.mySidebar__cars::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    /*background: rgb(189, 242, 251);*/
+    background: #9ab7ff;
+
+}
+
+.mySidebar__cars::-webkit-scrollbar-track {
+    background: transparent;
+
+}
+
+
+/*<!-- HTML !-->*/
+/*<button class="button-81" role="button">Button 81</button>*/
+
+/* CSS */
+.button-81 {
+    background-color: #6f94dc;
+    border: 0 solid #e2e8f0;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    color: #0d172a;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Basier circle", -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    text-decoration: none #0d172a solid;
+    text-decoration-thickness: auto;
+    transition: all .1s cubic-bezier(.4, 0, .2, 1);
+    box-shadow: 0px 1px 2px rgba(166, 175, 195, 0.25);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-81:hover {
+    background-color: #010938;
+    color: #919599;
+}
+
+.button-81_active {
+    background-color: #010938;
+    color: #919599;
+}
+
+.form-select {
+    background-color: gray;
+
+}
+
+.special {
+    font-weight: bold !important;
+    color: #fff !important;
+    background: #636363 !important;
+    text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+    .button-81 {
+        font-size: 1.125rem;
+
+        padding: 0.7rem 0.7rem;
+    }
+}
+
+
+/* CSS */
+.button-87 {
+    margin: 10px;
+    /*height: 60px;*/
+    /*width: 170px;*/
+    padding: 10px 30px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 500% auto;
+    color: #000;
+    border-radius: 10px;
+    display: block;
+    border: 0px;
+    font-weight: 400;
+
+    /*font-size: 25px;*/
+    box-shadow: 0px 0px 14px -7px #f09819;
+    background-image: linear-gradient(45deg, #f1ff2f 0%, #f0e519 51%, #f1ff2f 100%);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-87:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #000;
+    text-decoration: none;
+}
+
+.button-87:active {
+    transform: scale(0.95);
 }

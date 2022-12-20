@@ -4,9 +4,17 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 import datetime
 from user.models import *
+import os, os.path
 # from article.models import *
 def upload(instance, filename):
-    return 'licence/{filename}'.format(filename=filename)
+    DIR = '../media/car/{carId}'.format(carId=instance.id)
+    if os.path.exists(DIR) == True:
+        len_ = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+        return 'car/{carId}/{filename}'.format(carId=instance.id,
+                                               filename=(str(instance.registration_number) + "_" + str(len_+1) + ".jpg"))
+    else:
+        return 'car/{carId}/{filename}'.format(carId=instance.id, filename=(str(instance.registration_number) + "_"+ str(1) +".jpg"))
+
 def year_choices():
     return [(r,r) for r in range(2012, datetime.date.today().year+1)]
 def current_year():
@@ -71,10 +79,23 @@ class Car(models.Model):
     fuel_tank_left = models.FloatField(default=0)
     price_per_min = models.FloatField(default=0)
     available_now = models.IntegerField(default=False)
-    photo = models.ImageField(upload_to="images/", blank=True, null=True)
+    photo = models.ImageField(upload_to=upload, blank=True, null=True)
     longitude = models.FloatField(default=0.0000)
     latitude = models.FloatField(default=0.0000)
     is_approved = models.IntegerField(default=False)
+
+    def save(self, *args, **kwargs):
+        if self.id is None:
+            saved_image = self.photo
+            print(saved_image)
+            self.photo = None
+            super(Car, self).save(*args, **kwargs)
+            self.photo = saved_image
+            if 'force_insert' in kwargs:
+                kwargs.pop('force_insert')
+        super(Car, self).save(*args, **kwargs)
+
+
     class Meta:
         managed = True
         db_table = 'car'

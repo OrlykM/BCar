@@ -52,7 +52,7 @@ const ResetPasswordForm = () => {
             </div>
             <div className="d-flex justify-content-center">
                 <button onClick={handleForSubmit} type="submit"
-                        className="btn btn-success btn-block btn-lg gradient-custom-4 text-body">NEXT
+                        className="btn btn-warning btn-block btn-lg gradient-custom-4 text-body">NEXT
                 </button>
             </div>
         </form>

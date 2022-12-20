@@ -1,0 +1,70 @@
+.card__balance {
+    max-width: 500px;
+    margin: auto;
+    color: black;
+    border-radius: 20px;
+}
+
+
+.container__balance .h8__balance {
+    font-size: 30px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.btn.btn-primary__balance {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    background-image: linear-gradient(to right, #fff500 0%, #fff500 51%, #e6ff17 100%);
+    border-radius: 2rem;
+    transition: 0.5s;
+    font-size: larger;
+    background-size: 200% auto;
+
+}
+
+
+.btn.btn__balance.btn-primary__balance:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}
+
+
+
+.btn.btn-primary__balance:hover .fas.fa-arrow-right {
+    transform: translate(15px);
+    transition: transform 0.2s ease-in;
+}
+
+.form-control__balance {
+    color: white;
+    background-color: #212529;
+    border: 2px solid transparent;
+    height: 60px;
+    padding-left: 20px;
+    vertical-align: middle;
+    border-radius: 0.5rem;
+}
+
+.form-control__balance:focus {
+    color: white;
+    background-color: #212529;
+    border: 2px solid #ffffff;
+    box-shadow: none;
+}
+
+.text__balance {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
